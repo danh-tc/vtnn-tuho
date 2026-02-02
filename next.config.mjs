@@ -4,8 +4,9 @@ const repoName = "vtnn-tuho";
 const isProd = process.env.NODE_ENV === "production";
 
 const nextConfig = {
-  basePath: isProd ? `/${String(repoName)}` : "",
-  assetPrefix: isProd ? `/${String(repoName)}/` : "",
+  output: "export",
+  basePath: isProd ? `/${repoName}` : "",
+  assetPrefix: isProd ? `/${repoName}/` : "",
 };
 
 export default nextConfig;
