@@ -37,7 +37,11 @@ const Header = () => {
             <span className="desktop-only">|</span>
             <span className="desktop-only">Mở cửa: 06:00 - 19:30</span>
           </div>
-          <a href="/chi-duong" className="desktop-only">
+          <a
+            href="https://www.google.com/maps?q=C%E1%BB%ADa+H%C3%A0ng+VTNN+T%C6%B0+H%E1%BB%93,+%E1%BA%A4p+Th%E1%BA%A1nh+L%E1%BA%ADp,+Th%E1%BA%A1nh+H%C3%B3a,+Long+An&ftid=0x310ae912b2601e35:0xa7c2e30a427ba5a4&entry=gps&shh=CAE&lucs=,94297699,94275415,94284484,94231188,94280568,47071704,94266210,94218641,94282134,94286869&g_ep=CAISEjI2LjA0LjEuODU4MjY5MDE5MBgAIIgnKlosOTQyOTc2OTksOTQyNzU0MTUsOTQyODQ0ODQsOTQyMzExODgsOTQyODA1NjgsNDcwNzE3MDQsOTQyNjYyMTAsOTQyMTg2NDEsOTQyODIxMzQsOTQyODY4NjlCAlZO&skid=9208ebe4-272f-4158-989e-9b3d5ba1fa25&g_st=ic"
+            className="desktop-only"
+            target="blank"
+          >
             <LuMapPin size={14} /> Chỉ đường đến Tư Hồ
           </a>
         </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -50,6 +50,28 @@ const RIGHT_BANNERS = [
   },
 ];
 
+const ImageWithPlaceholder = ({ src, alt, priority, sizes }) => {
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  return (
+    <div className="image-placeholder">
+      <div className="rethink-hero__art-placeholder">
+        <span>VTNN Tư Hồ</span>
+      </div>
+      <Image
+        src={src}
+        alt={alt}
+        fill
+        priority={priority}
+        sizes={sizes}
+        style={{ objectFit: "cover" }}
+        className={`mock-img ${isLoaded ? "loaded" : ""}`}
+        onLoad={() => setIsLoaded(true)}
+      />
+    </div>
+  );
+};
+
 const HeroSlider = () => {
   return (
     <section className="hero-section">
@@ -79,17 +101,12 @@ const HeroSlider = () => {
               {SLIDES.map((slide, index) => (
                 <SwiperSlide key={slide.id}>
                   <Link href={slide.link} className="slide-link">
-                    <div className="image-placeholder">
-                      <Image
-                        src={slide.image}
-                        alt={slide.alt}
-                        fill
-                        priority={index === 0}
-                        sizes="(max-width: 1023px) 100vw, 70vw"
-                        style={{ objectFit: "cover" }}
-                        className="mock-img"
-                      />
-                    </div>
+                    <ImageWithPlaceholder
+                      src={slide.image}
+                      alt={slide.alt}
+                      priority={index === 0}
+                      sizes="(max-width: 1023px) 100vw, 70vw"
+                    />
                   </Link>
                 </SwiperSlide>
               ))}
@@ -106,17 +123,12 @@ const HeroSlider = () => {
           <div className="hero-banners">
             {RIGHT_BANNERS.map((banner, index) => (
               <Link href={banner.link} key={banner.id} className="sub-banner">
-                <div className="image-placeholder">
-                  <Image
-                    src={banner.image}
-                    alt={banner.alt}
-                    fill
-                    priority={index === 0}
-                    sizes="(max-width: 1023px) 50vw, 30vw"
-                    style={{ objectFit: "cover" }}
-                    className="mock-img"
-                  />
-                </div>
+                <ImageWithPlaceholder
+                  src={banner.image}
+                  alt={banner.alt}
+                  priority={index === 0}
+                  sizes="(max-width: 1023px) 50vw, 30vw"
+                />
               </Link>
             ))}
           </div>
