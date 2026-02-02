@@ -13,7 +13,7 @@ const roboto = Roboto({
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="vi">
       <body className={roboto.className}>{children}</body>
     </html>
   );

@@ -17,19 +17,19 @@ import "./HeroSlider.scss";
 const SLIDES = [
   {
     id: 1,
-    image: "/images/ruong-lua-1.jpg",
+    image: `${process.env.NEXT_PUBLIC_BASE_PATH}/images/ruong-lua-1.jpg`,
     link: "/khuyen-mai-1",
     alt: "Siêu sale thuốc bảo vệ thực vật",
   },
   {
     id: 2,
-    image: "/images/ruong-lua-2.jpg",
+    image: `${process.env.NEXT_PUBLIC_BASE_PATH}/images/ruong-lua-2.jpg`,
     link: "/khuyen-mai-2",
     alt: "Phân bón mùa vụ mới",
   },
   {
     id: 3,
-    image: "/images/ruong-lua-3.jpg",
+    image: `${process.env.NEXT_PUBLIC_BASE_PATH}/images/ruong-lua-3.jpg`,
     link: "/khuyen-mai-3",
     alt: "Dụng cụ làm vườn cao cấp",
   },
@@ -38,13 +38,13 @@ const SLIDES = [
 const RIGHT_BANNERS = [
   {
     id: 1,
-    image: "/images/ruong-lua-1.jpg",
+    image: `${process.env.NEXT_PUBLIC_BASE_PATH}/images/ruong-lua-1.jpg`,
     link: "/san-pham-moi",
     alt: "Sản phẩm mới về",
   },
   {
     id: 2,
-    image: "/images/ruong-lua-2.jpg",
+    image: `${process.env.NEXT_PUBLIC_BASE_PATH}/images/ruong-lua-2.jpg`,
     link: "/combo-tiet-kiem",
     alt: "Combo tiết kiệm",
   },
