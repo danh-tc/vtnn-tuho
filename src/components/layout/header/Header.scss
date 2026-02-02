@@ -1,0 +1,384 @@
+@use "@/styles/variables" as *;
+@use "sass:color" as color;
+
+.container {
+  max-width: $container-width;
+  margin: 0 auto;
+  padding: 0 15px;
+  width: 100%;
+}
+
+.header {
+  width: 100%;
+  background-color: $white;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 999;
+
+  &__top-bar {
+    background-color: $topbar-bg;
+    color: $white;
+    font-size: 13px;
+    padding: 8px 0;
+
+    .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .info-group {
+      display: flex;
+      gap: 20px;
+    }
+
+    a {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: opacity 0.2s;
+      &:hover {
+        opacity: 0.9;
+      }
+    }
+
+    @media screen and (max-width: $breakpoint-mobile) {
+      .desktop-only {
+        display: none;
+      }
+      .container {
+        justify-content: center;
+      }
+    }
+  }
+
+  &__main {
+    padding: 15px 0;
+    background: $white;
+
+    .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+    }
+  }
+
+  &__logo {
+    flex-shrink: 0;
+    text-align: center;
+    text-decoration: none;
+    z-index: 1;
+
+    .brand-name {
+      display: block;
+      font-size: 24px;
+      font-weight: 900;
+      color: $primary-color;
+      text-transform: uppercase;
+      line-height: 1;
+      letter-spacing: -0.5px;
+
+      @media screen and (min-width: 1024px) {
+        font-size: 28px;
+      }
+    }
+    .slogan {
+      display: block;
+      font-size: 10px;
+      color: #666;
+      font-weight: 600;
+      letter-spacing: 2px;
+      margin-top: 4px;
+
+      @media screen and (max-width: 375px) {
+        display: none;
+      }
+    }
+
+    @media screen and (max-width: $breakpoint-mobile) {
+      flex: 1;
+    }
+  }
+
+  &__search {
+    flex: 1;
+    max-width: 600px;
+
+    .search-wrapper {
+      display: flex;
+      background-color: $bg-gray;
+      border-radius: 99px;
+      padding: 4px;
+      border: 1px solid transparent;
+      transition: all 0.2s ease;
+
+      &:focus-within {
+        background: $white;
+        border-color: $primary-color;
+        box-shadow: 0 0 0 3px rgba($primary-color, 0.1);
+      }
+    }
+
+    input {
+      flex: 1;
+      border: none;
+      background: transparent;
+      padding: 0 20px;
+      outline: none;
+      font-size: 14px;
+      color: $text-main;
+    }
+
+    button {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background-color: $primary-color;
+      color: white;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+
+      &:hover {
+        background-color: color.adjust($primary-color, $lightness: -5%);
+      }
+    }
+
+    @media screen and (max-width: $breakpoint-mobile) {
+      display: none;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    gap: 15px;
+    flex-shrink: 0;
+
+    .icon-btn {
+      width: 45px;
+      height: 45px;
+      background: $white;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: $text-main;
+      position: relative;
+      transition: all 0.2s;
+
+      @media screen and (max-width: 375px) {
+        width: 35px;
+        height: 35px;
+      }
+
+      &:hover {
+        border-color: $primary-color;
+        color: $primary-color;
+        background: rgba($primary-color, 0.05);
+      }
+    }
+
+    .badge {
+      position: absolute;
+      top: -6px;
+      right: -6px;
+      background: #ff9800;
+      color: white;
+      font-size: 11px;
+      font-weight: 800;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid $white;
+    }
+  }
+
+  &__hamburger {
+    display: none;
+    background: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    color: $text-main;
+    position: relative;
+    z-index: 10;
+
+    &:active {
+      transform: scale(0.95);
+    }
+
+    @media screen and (max-width: $breakpoint-mobile) {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+    }
+  }
+
+  &__nav-bar {
+    background: $white;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+
+    .container {
+      display: flex;
+      align-items: center;
+    }
+
+    ul {
+      display: flex;
+      gap: 40px;
+      margin: 0;
+      padding: 0;
+    }
+
+    li {
+      position: relative;
+
+      &:hover > a {
+        color: $primary-color;
+        svg {
+          transform: rotate(180deg);
+          color: $primary-color;
+        }
+      }
+    }
+
+    a {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 16px 0;
+      font-size: 14px;
+      font-weight: 700;
+      color: #4b5563;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      position: relative;
+      text-decoration: none;
+      transition: all 0.3s ease;
+
+      svg {
+        transition: transform 0.3s ease;
+        color: #9ca3af;
+      }
+
+      &::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background: $primary-color;
+        transform: scaleX(0);
+        transform-origin: center;
+        transition: transform 0.3s ease-in-out;
+        border-radius: 4px 4px 0 0;
+      }
+
+      &:hover::after,
+      &.active::after {
+        transform: scaleX(1);
+      }
+
+      &.active {
+        color: $primary-color;
+        svg {
+          color: $primary-color;
+        }
+      }
+    }
+
+    @media screen and (max-width: $breakpoint-mobile) {
+      display: none;
+    }
+  }
+
+  &__mobile-menu {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 300px;
+    height: 100vh;
+    background: white;
+    z-index: 1000;
+    transition: 0.3s ease-in-out;
+    box-shadow: 4px 0 15px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+
+    &.open {
+      left: 0;
+    }
+
+    .menu-header {
+      padding: 25px;
+      border-bottom: 1px solid #f0f0f0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      span {
+        font-weight: 800;
+        font-size: 18px;
+        color: $primary-color;
+      }
+
+      button {
+        background: none;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+        color: #999;
+        &:hover {
+          color: #333;
+        }
+      }
+    }
+
+    ul {
+      padding: 0;
+      margin: 0;
+      list-style: none;
+    }
+
+    li {
+      border-bottom: 1px solid #f9f9f9;
+    }
+
+    a {
+      display: block;
+      padding: 16px 25px;
+      font-weight: 600;
+      color: #333;
+      text-decoration: none;
+      text-transform: uppercase;
+      font-size: 14px;
+    }
+  }
+
+  &__overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(2px);
+    z-index: 998;
+    display: none;
+    &.open {
+      display: block;
+    }
+  }
+}
