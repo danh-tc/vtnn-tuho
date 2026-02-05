@@ -1,0 +1,37 @@
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
+
+.edit-product {
+  max-width: 1200px;
+  margin: 0 auto;
+
+  &__header {
+    margin-bottom: $spacing-xl;
+  }
+
+  &__title {
+    margin: 0;
+    font-size: $font-size-3xl;
+    font-weight: $font-weight-bold;
+    color: $text-main;
+  }
+
+  &__loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: $spacing-3xl;
+    font-size: $font-size-lg;
+    color: $text-secondary;
+  }
+
+  &__error {
+    background-color: rgba($color-error, 0.1);
+    color: $color-error;
+    padding: $spacing-lg;
+    border-radius: $radius-md;
+    margin-bottom: $spacing-xl;
+    border-left: 4px solid $color-error;
+    font-weight: $font-weight-medium;
+  }
+}

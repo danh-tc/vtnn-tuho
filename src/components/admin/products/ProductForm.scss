@@ -1,0 +1,200 @@
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
+@use "sass:color" as color;
+
+.product-form {
+  max-width: 900px;
+  margin: 0 auto;
+
+  &__section {
+    background-color: $white;
+    border-radius: $radius-md;
+    padding: $spacing-xl;
+    margin-bottom: $spacing-xl;
+    box-shadow: $shadow-sm;
+  }
+
+  &__section-title {
+    margin: 0 0 $spacing-xl 0;
+    font-size: $font-size-xl;
+    font-weight: $font-weight-bold;
+    color: $text-main;
+    padding-bottom: $spacing-md;
+    border-bottom: 2px solid $border-light;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: $spacing-lg;
+
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__field {
+    margin-bottom: $spacing-xl;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &__label {
+    display: block;
+    margin-bottom: $spacing-sm;
+    font-weight: $font-weight-semibold;
+    color: $text-secondary;
+    font-size: $font-size-base;
+
+    .required {
+      color: $color-error;
+      margin-left: $spacing-xs;
+    }
+  }
+
+  &__input,
+  &__textarea,
+  &__select {
+    width: 100%;
+    padding: $spacing-md $spacing-lg;
+    border: 1px solid $border-default;
+    border-radius: $radius-md;
+    font-size: $font-size-base;
+    color: $text-main;
+    transition: all $transition-fast;
+    background-color: $white;
+
+    &:focus {
+      outline: none;
+      border-color: $primary-color;
+      box-shadow: 0 0 0 3px rgba($primary-color, 0.15);
+    }
+
+    &:disabled {
+      background-color: $bg-light;
+      cursor: not-allowed;
+    }
+  }
+
+  &__textarea {
+    resize: vertical;
+    min-height: 120px;
+  }
+
+  &__checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    font-weight: $font-weight-semibold;
+    color: $text-main;
+  }
+
+  &__checkbox {
+    width: 18px;
+    height: 18px;
+    accent-color: $primary-color;
+  }
+
+  &__error {
+    display: block;
+    margin-top: $spacing-sm;
+    color: $color-error;
+    font-size: $font-size-sm;
+  }
+
+  &__hint {
+    display: block;
+    margin-top: $spacing-sm;
+    color: $text-light;
+    font-size: $font-size-sm;
+  }
+
+  &__actions {
+    display: flex;
+    gap: $spacing-lg;
+    justify-content: flex-end;
+    padding-top: $spacing-xl;
+  }
+
+  &__btn-cancel,
+  &__btn-submit {
+    padding: $spacing-md $spacing-2xl;
+    border: none;
+    border-radius: $radius-md;
+    font-size: $font-size-base;
+    font-weight: $font-weight-bold;
+    cursor: pointer;
+    transition: all $transition-fast;
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  }
+
+  &__btn-cancel {
+    background-color: $bg-gray;
+    color: $text-main;
+
+    &:hover:not(:disabled) {
+      background-color: $border-default;
+    }
+  }
+
+  &__btn-submit {
+    background-color: $primary-color;
+    color: $white;
+
+    &:hover:not(:disabled) {
+      background-color: color.adjust($primary-color, $lightness: -5%);
+      box-shadow: 0 4px 12px rgba($primary-color, 0.3);
+      transform: translateY(-2px);
+    }
+
+    &:active:not(:disabled) {
+      transform: translateY(0);
+    }
+  }
+}
+
+.tiptap-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-sm;
+  padding: $spacing-sm;
+  border: 1px solid $border-default;
+  border-radius: $radius-md $radius-md 0 0;
+  background-color: $bg-light;
+
+  button {
+    border: none;
+    background: $white;
+    color: $text-main;
+    padding: 6px 10px;
+    border-radius: $radius-sm;
+    cursor: pointer;
+    font-weight: $font-weight-semibold;
+    font-size: $font-size-sm;
+
+    &.active {
+      background-color: rgba($primary-color, 0.15);
+      color: $primary-color;
+    }
+  }
+}
+
+.tiptap-editor {
+  min-height: 180px;
+  border: 1px solid $border-default;
+  border-top: none;
+  border-radius: 0 0 $radius-md $radius-md;
+  padding: $spacing-md $spacing-lg;
+  background-color: $white;
+  color: $text-main;
+
+  p {
+    margin: 0 0 $spacing-md 0;
+  }
+}

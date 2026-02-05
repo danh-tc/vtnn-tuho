@@ -1,0 +1,186 @@
+.products-list {
+  padding: 2rem;
+
+  &__loading,
+  &__error,
+  &__empty {
+    padding: 2rem;
+    text-align: center;
+    font-size: 1rem;
+    color: #666;
+  }
+
+  &__error {
+    color: #dc3545;
+  }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+
+  &__title {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #333;
+  }
+
+  &__add-btn {
+    padding: 0.75rem 1.5rem;
+    background: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s;
+
+    &:hover {
+      background: #218838;
+    }
+  }
+
+  &__table-wrapper {
+    overflow-x: auto;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  &__table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 800px;
+
+    thead {
+      background: #f8f9fa;
+      border-bottom: 2px solid #dee2e6;
+
+      th {
+        padding: 1rem;
+        text-align: left;
+        font-weight: 600;
+        color: #333;
+        font-size: 0.95rem;
+      }
+    }
+
+    tbody {
+      tr {
+        border-bottom: 1px solid #dee2e6;
+        transition: background 0.2s;
+
+        &:hover {
+          background: #f8f9fa;
+        }
+      }
+
+      td {
+        padding: 1rem;
+        vertical-align: middle;
+      }
+    }
+  }
+
+  &__thumbnail {
+    width: 60px;
+    height: 60px;
+    border-radius: 4px;
+    overflow: hidden;
+    background: #f8f9fa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  &__no-image {
+    font-size: 0.75rem;
+    color: #999;
+  }
+
+  &__name {
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 0.25rem;
+  }
+
+  &__id {
+    font-size: 0.85rem;
+    color: #666;
+  }
+
+  &__stock {
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    font-weight: 500;
+
+    &.in-stock {
+      background: #d4edda;
+      color: #155724;
+    }
+
+    &.out-of-stock {
+      background: #f8d7da;
+      color: #721c24;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  &__btn {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s;
+
+    &--edit {
+      background: #007bff;
+      color: white;
+
+      &:hover {
+        background: #0056b3;
+      }
+    }
+
+    &--delete {
+      background: #dc3545;
+      color: white;
+
+      &:hover {
+        background: #c82333;
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    padding: 1rem;
+
+    &__header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+
+    &__title {
+      font-size: 1.5rem;
+    }
+
+    &__table {
+      font-size: 0.9rem;
+    }
+  }
+}
