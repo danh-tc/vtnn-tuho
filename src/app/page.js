@@ -5,7 +5,8 @@ import Footer from "@/components/layout/footer/Footer";
 import Header from "@/components/layout/header/Header";
 import { getInitialData } from "@/lib/server-data";
 
-export const revalidate = 0; // Disable cache for development
+// Enable static generation for GitHub Pages
+export const revalidate = 3600; // Revalidate every hour
 
 export default async function Home() {
   const { categories, products } = await getInitialData();
