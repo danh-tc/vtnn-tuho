@@ -3,15 +3,41 @@
 import React, { useState } from "react";
 import CategoryTabs from "./CategoryTabs";
 import ProductCard from "./ProductCard";
-import { CATEGORIES, PRODUCTS } from "./mockData";
+import { useStore } from "@/lib/store";
 import "./ProductCategory.scss";
 
 const ProductCategory = () => {
-  const [activeTab, setActiveTab] = useState(CATEGORIES[0].id);
+  const { categories, products, isLoading } = useStore();
 
-  const filteredProducts = PRODUCTS.filter(
-    (product) => product.categoryId === activeTab,
-  );
+  const [selectedTab, setSelectedTab] = useState(null);
+
+  const activeTab =
+    selectedTab || (categories.length > 0 ? categories[0].id : null);
+
+  const filteredProducts = products.filter((product) => {
+    if (!activeTab) return false;
+
+    if (product.categoryIds && Array.isArray(product.categoryIds)) {
+      return product.categoryIds.includes(activeTab);
+    }
+    
+    return product.categoryId === activeTab;
+  });
+
+  if (isLoading) {
+    return (
+      <div
+        className="container"
+        style={{ padding: "50px", textAlign: "center" }}
+      >
+        Đang tải dữ liệu...
+      </div>
+    );
+  }
+
+  if (categories.length === 0) {
+    return null;
+  }
 
   return (
     <section className="product-category-section">
@@ -21,9 +47,9 @@ const ProductCategory = () => {
         </div>
 
         <CategoryTabs
-          categories={CATEGORIES}
+          categories={categories}
           activeTab={activeTab}
-          onTabChange={setActiveTab}
+          onTabChange={setSelectedTab}
         />
 
         <div className="product-grid">
@@ -32,7 +58,7 @@ const ProductCategory = () => {
               <ProductCard key={product.id} product={product} />
             ))
           ) : (
-            <p className="empty-msg">Đang cập nhật sản phẩm...</p>
+            <p className="empty-msg">Chưa có sản phẩm trong danh mục này.</p>
           )}
         </div>
       </div>

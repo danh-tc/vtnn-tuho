@@ -12,16 +12,14 @@ const ProductImage = ({ src, alt }) => {
       <div className="rethink-hero__art-placeholder">
         <span>VTNN Tư Hồ</span>
       </div>
-
       <Image
-        src={src}
+        src={src || "https://via.placeholder.com/400"}
         alt={alt}
         fill
         sizes="(max-width: 768px) 50vw, 25vw"
-        style={{
-          objectFit: "cover",
-        }}
+        style={{ objectFit: "cover" }}
         className={`product-img ${isLoaded ? "loaded" : ""}`}
+        priority={true}
         onLoad={() => setIsLoaded(true)}
       />
     </div>
@@ -32,7 +30,11 @@ const ProductCard = ({ product }) => {
   return (
     <Link href={`/san-pham/${product.id}`} className="product-card">
       <div className="card-image-wrapper">
-        <ProductImage src={product.image} alt={product.name} />
+        {/* Firebase uses 'thumbnail', fallback to 'image' if needed */}
+        <ProductImage
+          src={product.thumbnail || product.image}
+          alt={product.name}
+        />
       </div>
 
       <div className="card-info">

@@ -62,7 +62,7 @@ const ImageWithPlaceholder = ({ src, alt, priority, sizes }) => {
         src={src}
         alt={alt}
         fill
-        priority={priority}
+        priority={true}
         sizes={sizes}
         style={{ objectFit: "cover" }}
         className={`mock-img ${isLoaded ? "loaded" : ""}`}

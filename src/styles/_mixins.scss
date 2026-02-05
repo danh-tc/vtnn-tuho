@@ -1,3 +1,6 @@
+@use "@/styles/variables" as *;
+
+// Image Loading Placeholder
 @mixin image-placeholder-style {
   width: 100%;
   height: 100%;
@@ -10,10 +13,10 @@
     inset: 0;
     display: grid;
     place-items: center;
-    padding: 24px;
+    padding: $spacing-2xl;
     text-align: center;
-    color: #999;
-    font-weight: 500;
+    color: $text-muted;
+    font-weight: $font-weight-medium;
     z-index: 0;
     background-image: repeating-linear-gradient(
       -45deg,
@@ -22,7 +25,7 @@
       #fff 0,
       #fff 16px
     );
-    transition: opacity 0.3s ease;
+    transition: opacity $transition-fast;
   }
 
   img,
@@ -43,5 +46,204 @@
       opacity: 0;
       visibility: hidden;
     }
+  }
+}
+
+// Flexbox Center
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// Flex Between
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+// Text Truncate (single line)
+@mixin text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// Text Clamp (multi-line)
+@mixin text-clamp($lines: 2) {
+  display: -webkit-box;
+  -webkit-line-clamp: $lines;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+// Icon Button Base
+@mixin icon-button {
+  @include flex-center;
+  background: $white;
+  border: 1px solid $border-default;
+  border-radius: $radius-lg;
+  color: $text-main;
+  position: relative;
+  transition: all $transition-fast;
+  cursor: pointer;
+
+  &:hover {
+    border-color: $primary-color;
+    color: $primary-color;
+    background: rgba($primary-color, 0.05);
+  }
+}
+
+// Round Button
+@mixin round-button {
+  @include flex-center;
+  border-radius: $radius-full;
+  border: none;
+  transition: all $transition-fast;
+  cursor: pointer;
+}
+
+// Tab Button
+@mixin tab-button {
+  padding: $spacing-md $spacing-2xl;
+  border-radius: $radius-pill;
+  border: 1px solid transparent;
+  background: $white;
+  color: $text-secondary;
+  font-weight: $font-weight-semibold;
+  cursor: pointer;
+  transition: all $transition-normal;
+  box-shadow: $shadow-sm;
+
+  &:hover,
+  &.active {
+    background-color: $primary-color;
+    color: white;
+    box-shadow: 0 4px 10px rgba($primary-color, 0.3);
+  }
+}
+
+// Card Base
+@mixin card-base {
+  display: flex;
+  flex-direction: column;
+  background: $white;
+  border-radius: $radius-xl;
+  overflow: hidden;
+  box-shadow: $shadow-lg;
+  border: 1px solid $border-light;
+  height: 100%;
+  transition: all $transition-smooth;
+}
+
+// Link Hover Animation
+@mixin link-hover-slide {
+  transition: all $transition-fast;
+  
+  &:hover {
+    color: $primary-color;
+    transform: translateX($spacing-md);
+  }
+}
+
+// Underline Animation
+@mixin underline-animation {
+  position: relative;
+  
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: $primary-color;
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform $transition-easing;
+    border-radius: $radius-sm $radius-sm 0 0;
+  }
+
+  &:hover::after,
+  &.active::after {
+    transform: scaleX(1);
+  }
+}
+
+// Dropdown Menu
+@mixin dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: $white;
+  box-shadow: $shadow-xl;
+  border-radius: 0 0 $radius-md $radius-md;
+  padding: $spacing-md 0;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY($spacing-lg);
+  transition: all $transition-smooth;
+  z-index: 100;
+  border-top: 3px solid $primary-color;
+}
+
+// Gradient Text
+@mixin gradient-text($from: $primary-color, $to: $secondary-color) {
+  background: linear-gradient(135deg, $from, $to);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+// Animation: Slide Down
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-$spacing-lg);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Animation: Slide Up
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY($spacing-lg);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Animation: Fade In
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+// Responsive Grid
+@mixin responsive-grid($desktop-cols: 4, $tablet-cols: 3, $mobile-cols: 2, $gap: $spacing-lg) {
+  display: grid;
+  grid-template-columns: repeat($desktop-cols, 1fr);
+  gap: $gap;
+
+  @media (max-width: 1024px) {
+    grid-template-columns: repeat($tablet-cols, 1fr);
+    gap: $gap - 5px;
+  }
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat($mobile-cols, 1fr);
+    gap: $gap - 10px;
   }
 }

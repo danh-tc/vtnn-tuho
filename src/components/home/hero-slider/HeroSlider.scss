@@ -3,17 +3,17 @@
 
 .hero-section {
   padding: $section-padding;
-  background-color: #f8f9fa;
+  background-color: $bg-light;
 
   .hero-grid {
     display: grid;
     grid-template-columns: 2fr 1fr;
-    gap: 15px;
+    gap: $spacing-lg;
     align-items: stretch;
 
     @media screen and (max-width: $breakpoint-mobile) {
       grid-template-columns: 1fr;
-      gap: 10px;
+      gap: $spacing-md;
     }
   }
 }
@@ -22,10 +22,10 @@
   position: relative;
   width: 100%;
   aspect-ratio: 2 / 1;
-  border-radius: 12px;
+  border-radius: $radius-lg;
   overflow: hidden;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-  background: #fff;
+  box-shadow: $shadow-md;
+  background: $white;
 
   .main-swiper {
     width: 100%;
@@ -48,7 +48,7 @@
   @include image-placeholder-style;
 
   .rethink-hero__art-placeholder {
-    font-size: 14px;
+    font-size: $font-size-lg;
   }
 }
 
@@ -60,15 +60,13 @@
   height: 40px;
   background-color: rgba(255, 255, 255, 0.9);
   border: none;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  border-radius: $radius-full;
+  @include flex-center;
   cursor: pointer;
   z-index: 10;
   color: $primary-color;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  transition: all 0.2s ease;
+  box-shadow: $shadow-primary;
+  transition: all $transition-fast;
   opacity: 0;
 
   &:hover {
@@ -78,10 +76,10 @@
   }
 
   &.custom-prev {
-    left: 15px;
+    left: $spacing-lg;
   }
   &.custom-next {
-    right: 15px;
+    right: $spacing-lg;
   }
 }
 
@@ -94,12 +92,12 @@
   height: 8px;
   background: white;
   opacity: 0.5;
-  transition: all 0.3s;
+  transition: all $transition-normal;
 }
 
 .swiper-pagination-bullet-active {
   width: 24px;
-  border-radius: 4px;
+  border-radius: $radius-sm;
   background: white;
   opacity: 1;
 }
@@ -107,16 +105,16 @@
 .hero-banners {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: $spacing-lg;
   height: 100%;
 
   .sub-banner {
     flex: 1;
     width: 100%;
     position: relative;
-    border-radius: 12px;
+    border-radius: $radius-lg;
     overflow: hidden;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    box-shadow: $shadow-md;
 
     .image-placeholder {
       @include image-placeholder-style;

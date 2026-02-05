@@ -1,11 +1,94 @@
+// Primary Colors
 $primary-color: #2e7d32;
 $secondary-color: #fdd835;
 $topbar-bg: #1b5e20;
+
+// Text Colors
 $white: #ffffff;
 $text-main: #333;
-$bg-gray: #f3f4f6;
+$text-dark: #333333;
+$text-secondary: #4b5563;
+$text-light: #666;
+$text-muted: #999;
 
+// Background Colors
+$bg-gray: #f3f4f6;
+$bg-light: #f8f9fa;
+$bg-lighter: #f4f6f4;
+$bg-card: #f9fbf9;
+$bg-section: #f4f6f4;
+
+// Accent Colors
+$color-accent: #e78c5c;
+$color-warning: #ff9800;
+$color-error: #d32f2f;
+$color-info: #1877f2;
+
+// Border Colors
+$border-light: rgba(0, 0, 0, 0.05);
+$border-default: #e5e7eb;
+
+// Layout
 $container-width: 1320px;
 $breakpoint-mobile: 1023px;
 
+// Spacing
 $section-padding: 20px 0;
+$spacing-xs: 4px;
+$spacing-sm: 8px;
+$spacing-md: 12px;
+$spacing-lg: 15px;
+$spacing-xl: 20px;
+$spacing-2xl: 24px;
+$spacing-3xl: 40px;
+$spacing-4xl: 45px;
+$spacing-5xl: 60px;
+
+// Border Radius
+$radius-sm: 4px;
+$radius-md: 8px;
+$radius-lg: 12px;
+$radius-xl: 16px;
+$radius-full: 50%;
+$radius-pill: 99px;
+
+// Shadows
+$shadow-sm: 0 2px 5px rgba(0, 0, 0, 0.05);
+$shadow-md: 0 4px 10px rgba(0, 0, 0, 0.05);
+$shadow-lg: 0 10px 20px rgba(0, 0, 0, 0.05);
+$shadow-xl: 0 10px 30px rgba(0, 0, 0, 0.1);
+$shadow-hover: 0 15px 30px rgba(0, 0, 0, 0.1);
+$shadow-primary: 0 2px 8px rgba(0, 0, 0, 0.15);
+$shadow-primary-hover: 0 4px 15px rgba(46, 125, 50, 0.3);
+
+// Transitions
+$transition-fast: 0.2s ease;
+$transition-normal: 0.3s ease;
+$transition-smooth: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+$transition-easing: 0.3s ease-in-out;
+
+// Typography
+$font-weight-regular: 400;
+$font-weight-medium: 500;
+$font-weight-semibold: 600;
+$font-weight-bold: 700;
+$font-weight-black: 800;
+$font-weight-heavy: 900;
+
+$font-size-sm: 12px;
+$font-size-md: 13px;
+$font-size-base: 14px;
+$font-size-lg: 15px;
+$font-size-xl: 16px;
+$font-size-2xl: 18px;
+$font-size-3xl: 24px;
+$font-size-4xl: 28px;
+$font-size-5xl: 32px;
+
+// Component Sizes
+$button-height-sm: 35px;
+$button-height-md: 38px;
+$button-height-lg: 45px;
+$icon-size-sm: 20px;
+$icon-size-md: 24px;
+$badge-size: 20px;

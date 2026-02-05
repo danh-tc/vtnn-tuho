@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
   LuSearch,
   LuUser,
@@ -11,20 +12,86 @@ import {
   LuMenu,
   LuX,
   LuChevronDown,
+  LuChevronRight,
+  LuPlus,
+  LuMinus,
+  LuLock,
 } from "react-icons/lu";
+import { useStore } from "@/lib/store";
+import { onAuthChange, signOutUser } from "@/lib/auth";
+import { db } from "@/lib/firebase";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import "./Header.scss";
 
-const MENU_ITEMS = [
-  { label: "Trang chủ", link: "/", active: true },
-  { label: "Giới thiệu", link: "/gioi-thieu" },
-  { label: "Sản phẩm", link: "/san-pham", hasSub: true },
-  { label: "Kiến thức", link: "/kien-thuc" },
-  { label: "Tuyển dụng", link: "/tuyen-dung" },
-  { label: "Liên hệ", link: "/lien-he" },
-];
+const buildCategoryTree = (categories) => {
+  const roots = categories.filter((c) => !c.parentId);
+  return roots.map((parent) => {
+    const children = categories.filter((c) => c.parentId === parent.id);
+    return { ...parent, children };
+  });
+};
 
 const Header = () => {
+  const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [expandedIds, setExpandedIds] = useState([]);
+  const [authUser, setAuthUser] = useState(null);
+  const [displayName, setDisplayName] = useState("");
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [accountExpanded, setAccountExpanded] = useState(false);
+  const [productsExpanded, setProductsExpanded] = useState(false);
+  const [othersExpanded, setOthersExpanded] = useState(false);
+  const { categories } = useStore();
+  const categoryTree = buildCategoryTree(categories);
+
+  useEffect(() => {
+    const unsubscribe = onAuthChange(async (user) => {
+      setAuthUser(user || null);
+
+      if (!user) {
+        setDisplayName("");
+        return;
+      }
+
+      try {
+        const usersRef = collection(db, "users");
+        const q = query(usersRef, where("uid", "==", user.uid));
+        const querySnapshot = await getDocs(q);
+
+        if (querySnapshot.size > 0) {
+          const data = querySnapshot.docs[0].data();
+          setDisplayName(
+            data.firstName || data.username || user.displayName || user.email,
+          );
+        } else {
+          setDisplayName(user.displayName || user.email || "");
+        }
+      } catch (error) {
+        // Fallback if Firestore is blocked (ad blocker, network issues, etc.)
+        console.warn(
+          "Không thể tải thông tin user từ Firestore:",
+          error.message,
+        );
+        setDisplayName(user.displayName || user.email || "Người dùng");
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  const toggleExpand = (id, e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setExpandedIds((prev) =>
+      prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id],
+    );
+  };
+
+  const handleLogout = async () => {
+    await signOutUser();
+    setShowDropdown(false);
+    router.push("/");
+  };
 
   return (
     <header className="header">
@@ -75,9 +142,51 @@ const Header = () => {
           </div>
 
           <div className="header__actions">
-            <Link href="/login" className="icon-btn">
-              <LuUser size={22} strokeWidth={2.5} />
-            </Link>
+            {authUser ? (
+              <div
+                className="auth-greeting-wrapper"
+                onMouseEnter={() => setShowDropdown(true)}
+                onMouseLeave={() => setShowDropdown(false)}
+              >
+                <div className="auth-greeting">
+                  <LuUser size={20} strokeWidth={2.5} />
+                  <span>Xin chào, {displayName}</span>
+                  <LuChevronDown size={16} />
+                </div>
+                {showDropdown && (
+                  <div className="auth-dropdown">
+                    <Link href="/auth/profile" className="dropdown-item">
+                      <LuUser size={16} />
+                      <span>Thông tin cá nhân</span>
+                    </Link>
+                    <Link
+                      href="/auth/change-password"
+                      className="dropdown-item"
+                    >
+                      <LuLock size={16} />
+                      <span>Đổi mật khẩu</span>
+                    </Link>
+                    <button
+                      onClick={handleLogout}
+                      className="dropdown-item logout-btn"
+                    >
+                      <LuX size={16} />
+                      <span>Đăng xuất</span>
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className="auth-links">
+                <Link href="/auth/login" className="auth-link">
+                  Đăng nhập
+                </Link>
+                <span className="auth-divider">/</span>
+                <Link href="/auth/register" className="auth-link">
+                  Đăng ký
+                </Link>
+              </div>
+            )}
             <Link href="/cart" className="icon-btn">
               <LuShoppingBag size={22} strokeWidth={2.5} />
               <span className="badge">2</span>
@@ -88,21 +197,54 @@ const Header = () => {
 
       <nav className="header__nav-bar">
         <div className="container">
-          <ul>
-            {MENU_ITEMS.map((item, index) => (
-              <li key={index}>
-                <Link href={item.link} className={item.active ? "active" : ""}>
-                  {item.label}
-                  {item.hasSub && (
-                    <LuChevronDown
-                      size={16}
-                      strokeWidth={3}
-                      style={{ marginBottom: 2 }}
-                    />
-                  )}
-                </Link>
-              </li>
-            ))}
+          <ul className="nav-list">
+            <li>
+              <Link href="/">Trang chủ</Link>
+            </li>
+            <li>
+              <Link href="/gioi-thieu">Giới thiệu</Link>
+            </li>
+
+            <li className="has-dropdown">
+              <Link href="/san-pham">
+                Sản phẩm <LuChevronDown size={14} style={{ marginBottom: 2 }} />
+              </Link>
+
+              <ul className="dropdown-menu">
+                {categoryTree.map((parent) => (
+                  <li key={parent.id} className="dropdown-item">
+                    <Link href={`/danh-muc/${parent.slug || parent.id}`}>
+                      {parent.name || parent.label}
+                      {parent.children?.length > 0 && (
+                        <LuChevronRight size={14} />
+                      )}
+                    </Link>
+
+                    {parent.children?.length > 0 && (
+                      <ul className="sub-menu">
+                        {parent.children.map((child) => (
+                          <li key={child.id}>
+                            <Link href={`/danh-muc/${child.slug || child.id}`}>
+                              {child.name || child.label}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </li>
+
+            <li>
+              <Link href="/kien-thuc">Kiến thức</Link>
+            </li>
+            <li>
+              <Link href="/tuyen-dung">Tuyển dụng</Link>
+            </li>
+            <li>
+              <Link href="/lien-he">Liên hệ</Link>
+            </li>
           </ul>
         </div>
       </nav>
@@ -119,14 +261,171 @@ const Header = () => {
             <LuX />
           </button>
         </div>
-        <ul>
-          {MENU_ITEMS.map((item, index) => (
-            <li key={index}>
-              <Link href={item.link} onClick={() => setMenuOpen(false)}>
-                {item.label}
-              </Link>
-            </li>
-          ))}
+        <ul className="mobile-list">
+          <li className="mobile-section-title collapsible">
+            <span>TÀI KHOẢN</span>
+            <button
+              className="section-toggle-btn"
+              onClick={() => setAccountExpanded(!accountExpanded)}
+            >
+              {accountExpanded ? <LuMinus size={16} /> : <LuPlus size={16} />}
+            </button>
+          </li>
+          {accountExpanded && authUser ? (
+            <>
+              <li className="mobile-auth-card">
+                <div className="user-avatar">
+                  <LuUser size={24} />
+                </div>
+                <div className="user-info">
+                  <div className="user-greeting">Xin chào,</div>
+                  <div className="user-name">{displayName}</div>
+                </div>
+              </li>
+              <li>
+                <Link
+                  href="/auth/profile"
+                  onClick={() => setMenuOpen(false)}
+                  className="mobile-menu-item"
+                >
+                  <LuUser size={18} />
+                  <span>Thông tin cá nhân</span>
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/auth/change-password"
+                  onClick={() => setMenuOpen(false)}
+                  className="mobile-menu-item"
+                >
+                  <LuLock size={18} />
+                  <span>Đổi mật khẩu</span>
+                </Link>
+              </li>
+              <li>
+                <button
+                  onClick={handleLogout}
+                  className="mobile-menu-item logout-item"
+                >
+                  <LuX size={18} />
+                  <span>Đăng xuất</span>
+                </button>
+              </li>
+            </>
+          ) : null}
+          {accountExpanded && !authUser ? (
+            <>
+              <li>
+                <Link href="/auth/login" onClick={() => setMenuOpen(false)}>
+                  ĐĂNG NHẬP
+                </Link>
+              </li>
+              <li>
+                <Link href="/auth/register" onClick={() => setMenuOpen(false)}>
+                  ĐĂNG KÝ
+                </Link>
+              </li>
+            </>
+          ) : null}
+
+          <li>
+            <Link href="/" onClick={() => setMenuOpen(false)}>
+              TRANG CHỦ
+            </Link>
+          </li>
+          <li>
+            <Link href="/gioi-thieu" onClick={() => setMenuOpen(false)}>
+              GIỚI THIỆU
+            </Link>
+          </li>
+
+          <li className="mobile-section-title collapsible">
+            <span>SẢN PHẨM</span>
+            <button
+              className="section-toggle-btn"
+              onClick={() => setProductsExpanded(!productsExpanded)}
+            >
+              {productsExpanded ? <LuMinus size={16} /> : <LuPlus size={16} />}
+            </button>
+          </li>
+
+          {productsExpanded &&
+            categoryTree.map((parent) => {
+              const isExpanded = expandedIds.includes(parent.id);
+              const hasChildren = parent.children && parent.children.length > 0;
+
+              return (
+                <li
+                  key={parent.id}
+                  className={`mobile-item-group ${isExpanded ? "expanded" : ""}`}
+                >
+                  <div className="mobile-item-row">
+                    <Link
+                      href={`/danh-muc/${parent.slug || parent.id}`}
+                      className="parent-link"
+                      onClick={() => setMenuOpen(false)}
+                    >
+                      {parent.name || parent.label}
+                    </Link>
+
+                    {hasChildren && (
+                      <button
+                        className="expand-btn"
+                        onClick={(e) => toggleExpand(parent.id, e)}
+                      >
+                        {isExpanded ? (
+                          <LuMinus size={18} />
+                        ) : (
+                          <LuPlus size={18} />
+                        )}
+                      </button>
+                    )}
+                  </div>
+
+                  {hasChildren && (
+                    <ul
+                      className={`mobile-sub-menu ${isExpanded ? "open" : ""}`}
+                    >
+                      {parent.children.map((child) => (
+                        <li key={child.id}>
+                          <Link
+                            href={`/danh-muc/${child.slug || child.id}`}
+                            className="child-link"
+                            onClick={() => setMenuOpen(false)}
+                          >
+                            {child.name || child.label}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </li>
+              );
+            })}
+
+          <li className="mobile-section-title collapsible">
+            <span>KHÁC</span>
+            <button
+              className="section-toggle-btn"
+              onClick={() => setOthersExpanded(!othersExpanded)}
+            >
+              {othersExpanded ? <LuMinus size={16} /> : <LuPlus size={16} />}
+            </button>
+          </li>
+          {othersExpanded && (
+            <>
+              <li>
+                <Link href="/kien-thuc" onClick={() => setMenuOpen(false)}>
+                  KIẾN THỨC
+                </Link>
+              </li>
+              <li>
+                <Link href="/lien-he" onClick={() => setMenuOpen(false)}>
+                  LIÊN HỆ
+                </Link>
+              </li>
+            </>
+          )}
         </ul>
       </div>
     </header>

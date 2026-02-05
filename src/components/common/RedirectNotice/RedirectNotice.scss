@@ -1,0 +1,90 @@
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
+@use "sass:color" as color;
+
+.redirect-notice {
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-3xl $spacing-lg;
+  background: linear-gradient(
+    135deg,
+    rgba($primary-color, 0.05),
+    rgba($secondary-color, 0.05)
+  );
+}
+
+.notice-card {
+  width: 100%;
+  max-width: 520px;
+  background: $white;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-lg;
+  padding: $spacing-3xl;
+  text-align: center;
+
+  @media (max-width: $breakpoint-mobile) {
+    padding: $spacing-2xl $spacing-xl;
+  }
+}
+
+.notice-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  margin: 0 auto $spacing-xl;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba($primary-color, 0.1);
+  color: $primary-color;
+
+  &.unauthorized {
+    background: rgba($color-error, 0.1);
+    color: $color-error;
+  }
+}
+
+.notice-title {
+  font-size: $font-size-4xl;
+  font-weight: $font-weight-heavy;
+  color: $text-dark;
+  margin-bottom: $spacing-md;
+}
+
+.notice-message {
+  font-size: $font-size-lg;
+  color: $text-main;
+  line-height: 1.6;
+  margin-bottom: $spacing-lg;
+}
+
+.notice-countdown {
+  font-size: $font-size-md;
+  color: $text-light;
+  margin-bottom: $spacing-xl;
+
+  strong {
+    color: $primary-color;
+  }
+}
+
+.notice-home-link {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-sm;
+  padding: $spacing-md $spacing-xl;
+  border-radius: $radius-pill;
+  background: $primary-color;
+  color: $white;
+  font-weight: $font-weight-semibold;
+  text-decoration: none;
+  transition: all $transition-normal;
+  box-shadow: 0 10px 20px rgba($primary-color, 0.2);
+
+  &:hover {
+    background: color.adjust($primary-color, $lightness: -5%);
+    transform: translateY(-2px);
+  }
+}

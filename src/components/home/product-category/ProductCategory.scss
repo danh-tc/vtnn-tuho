@@ -1,37 +1,31 @@
 @use "@/styles/variables" as *;
 @use "@/styles/mixins" as *;
 
-$color-title: #e78c5c;
-$color-leaf-green: #2e7d32;
-$color-price: #d32f2f;
-$color-text-dark: #333333;
-$color-bg-card-info: #f9fbf9;
-
 .product-category-section {
   padding: $section-padding;
-  background-color: #f4f6f4;
+  background-color: $bg-section;
 
   .section-header {
     text-align: center;
-    margin-bottom: 45px;
+    margin-bottom: $spacing-4xl;
 
     .title {
-      font-size: 32px;
-      color: $color-title;
+      font-size: $font-size-5xl;
+      color: $color-accent;
       text-transform: uppercase;
-      font-weight: 800;
+      font-weight: $font-weight-black;
       letter-spacing: 0.5px;
     }
 
     .leaf-decoration {
       display: flex;
       justify-content: center;
-      margin-top: 5px;
+      margin-top: $spacing-md;
     }
   }
 
   .category-tabs {
-    margin-bottom: 45px;
+    margin-bottom: $spacing-4xl;
     width: 100%;
     position: relative;
     z-index: 10;
@@ -39,7 +33,7 @@ $color-bg-card-info: #f9fbf9;
     .tabs-desktop {
       display: flex;
       justify-content: center;
-      gap: 15px;
+      gap: $spacing-lg;
       flex-wrap: wrap;
 
       @media (max-width: 768px) {
@@ -53,7 +47,7 @@ $color-bg-card-info: #f9fbf9;
       width: 100%;
       max-width: 400px;
       margin: 0 auto;
-      padding: 0 15px;
+      padding: 0 $spacing-lg;
 
       @media (max-width: 768px) {
         display: block;
@@ -64,24 +58,24 @@ $color-bg-card-info: #f9fbf9;
         justify-content: space-between;
         align-items: center;
         width: 100%;
-        padding: 12px 24px;
-        background-color: #fff;
-        border: 1px solid $color-leaf-green;
-        border-radius: 50px;
+        padding: $spacing-md $spacing-2xl;
+        background-color: $white;
+        border: 1px solid $primary-color;
+        border-radius: $radius-pill;
         cursor: pointer;
-        transition: all 0.3s ease;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        transition: all $transition-normal;
+        box-shadow: $shadow-sm;
 
         .selected-label {
-          font-weight: 600;
-          color: $color-text-dark;
-          font-size: 16px;
+          font-weight: $font-weight-semibold;
+          color: $text-dark;
+          font-size: $font-size-xl;
         }
 
         .arrow-icon {
-          color: $color-leaf-green;
-          font-size: 20px;
-          transition: transform 0.3s ease;
+          color: $primary-color;
+          font-size: $icon-size-md;
+          transition: transform $transition-normal;
 
           &.rotate {
             transform: rotate(180deg);
@@ -89,110 +83,75 @@ $color-bg-card-info: #f9fbf9;
         }
 
         &:hover {
-          box-shadow: 0 4px 10px rgba(46, 125, 50, 0.15);
+          box-shadow: 0 4px 10px rgba($primary-color, 0.15);
         }
       }
 
       .mobile-select-options {
         position: absolute;
         top: calc(100% + 8px);
-        left: 15px;
-        right: 15px;
-        background: #fff;
-        border-radius: 12px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        left: $spacing-lg;
+        right: $spacing-lg;
+        background: $white;
+        border-radius: $radius-lg;
+        box-shadow: $shadow-xl;
         overflow: hidden;
         z-index: 20;
-        border: 1px solid rgba(0, 0, 0, 0.05);
-        animation: slideDown 0.2s ease-out;
+        border: 1px solid $border-light;
+        animation: slideDown $transition-fast;
 
         .option-item {
-          padding: 14px 24px;
-          font-size: 15px;
-          color: #555;
+          padding: $spacing-md $spacing-2xl;
+          font-size: $font-size-lg;
+          color: $text-secondary;
           cursor: pointer;
           border-bottom: 1px solid #f5f5f5;
-          transition: background 0.2s;
+          transition: background $transition-fast;
 
           &:last-child {
             border-bottom: none;
           }
 
           &:hover {
-            background-color: #f9fbf9;
-            color: $color-leaf-green;
+            background-color: $bg-card;
+            color: $primary-color;
           }
 
           &.selected {
-            color: $color-leaf-green;
-            font-weight: 700;
-            background-color: rgba(46, 125, 50, 0.05);
+            color: $primary-color;
+            font-weight: $font-weight-bold;
+            background-color: rgba($primary-color, 0.05);
           }
         }
       }
     }
 
     .tab-btn {
-      padding: 10px 28px;
-      border-radius: 50px;
-      border: 1px solid transparent;
-      background: #fff;
-      color: #555;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-
-      &:hover,
-      &.active {
-        background-color: $color-leaf-green;
-        color: white;
-        box-shadow: 0 4px 10px rgba(46, 125, 50, 0.3);
-      }
+      @include tab-button;
     }
   }
 
   .product-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 25px;
-
-    @media (max-width: 1024px) {
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-    }
-
-    @media (max-width: 768px) {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 15px;
-    }
+    @include responsive-grid($desktop-cols: 4, $tablet-cols: 3, $mobile-cols: 2, $gap: $spacing-2xl);
   }
 
   .empty-msg {
     text-align: center;
     grid-column: 1 / -1;
-    color: #999;
-    padding: 40px;
+    color: $text-muted;
+    padding: $spacing-3xl;
   }
 }
 
 .product-card {
-  display: flex;
-  flex-direction: column;
-  background: #fff;
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  border: 1px solid rgba(0, 0, 0, 0.04);
-  height: 100%;
+  @include card-base;
 
   &:hover {
     transform: translateY(-8px);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    box-shadow: $shadow-hover;
 
     .product-name {
-      color: $color-leaf-green;
+      color: $primary-color;
     }
 
     .card-image-wrapper img {
@@ -205,14 +164,14 @@ $color-bg-card-info: #f9fbf9;
     aspect-ratio: 1/1;
     position: relative;
     overflow: hidden;
-    background: #fff;
+    background: $white;
   }
 
   .image-placeholder {
     @include image-placeholder-style;
 
     .rethink-hero__art-placeholder {
-      font-size: 12px;
+      font-size: $font-size-sm;
     }
   }
 
@@ -221,28 +180,25 @@ $color-bg-card-info: #f9fbf9;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 15px 15px 20px 15px;
-    background-color: $color-bg-card-info;
+    padding: $spacing-lg $spacing-lg $spacing-xl $spacing-lg;
+    background-color: $bg-card;
     border-top: 1px solid #f0f0f0;
 
     .product-name {
-      font-size: 15px;
-      font-weight: 600;
-      color: $color-text-dark;
-      margin-bottom: 12px;
+      font-size: $font-size-lg;
+      font-weight: $font-weight-semibold;
+      color: $text-dark;
+      margin-bottom: $spacing-md;
       line-height: 1.5;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
+      @include text-clamp(2);
       text-align: center;
-      transition: color 0.2s ease;
+      transition: color $transition-fast;
     }
 
     .product-price {
-      color: $color-leaf-green;
-      font-weight: 800;
-      font-size: 18px;
+      color: $primary-color;
+      font-weight: $font-weight-black;
+      font-size: $font-size-2xl;
       text-align: center;
       margin-top: auto;
     }

@@ -126,7 +126,7 @@ const Footer = () => {
 
       <div className="footer__bottom">
         <div className="container">
-          <p>© 2010 VTNN Tư Hồ. Tất cả quyền được bảo lưu.</p>
+          <p>© 2010 VTNN Tư Hồ - All rights reserved.</p>
           <p className="design-by">Designed by Danh Tran Cong</p>
         </div>
       </div>
