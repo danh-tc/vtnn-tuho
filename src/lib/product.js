@@ -63,6 +63,10 @@ export async function createProduct(productData) {
 
 export async function getAllProducts() {
   try {
+    if (!db) {
+      console.warn('Firebase not initialized, returning empty products');
+      return [];
+    }
     const productsRef = collection(db, "products");
     const q = query(productsRef, orderBy("createdAt", "desc"));
     const snapshot = await getDocs(q);
@@ -84,6 +88,10 @@ export async function getAllProducts() {
 
 export async function getProductById(productId) {
   try {
+    if (!db) {
+      console.warn('Firebase not initialized');
+      return null;
+    }
     const productRef = doc(db, "products", productId);
     const productDoc = await getDoc(productRef);
     

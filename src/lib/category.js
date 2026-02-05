@@ -17,6 +17,10 @@ import {
  */
 export async function getAllCategories() {
   try {
+    if (!db) {
+      console.warn('Firebase not initialized, returning empty categories');
+      return [];
+    }
     const categoriesRef = collection(db, "categories");
     const querySnapshot = await getDocs(categoriesRef);
     return querySnapshot.docs.map((doc) => ({
@@ -34,6 +38,10 @@ export async function getAllCategories() {
  */
 export async function getCategoryById(categoryId) {
   try {
+    if (!db) {
+      console.warn('Firebase not initialized');
+      return null;
+    }
     const categoryRef = doc(db, "categories", categoryId);
     const docSnapshot = await getDoc(categoryRef);
     if (docSnapshot.exists()) {

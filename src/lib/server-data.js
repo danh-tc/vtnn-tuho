@@ -3,6 +3,12 @@ import { db } from "./firebase";
 
 export async function getInitialData() {
   try {
+    // Return empty data if Firebase is not initialized (e.g., during static export)
+    if (!db) {
+      console.warn('Firebase not initialized, returning empty data');
+      return { categories: [], products: [] };
+    }
+    
     // Get all categories without orderBy to ensure all documents are fetched
     const catSnap = await getDocs(collection(db, "categories"));
     const prodSnap = await getDocs(collection(db, "products"));
