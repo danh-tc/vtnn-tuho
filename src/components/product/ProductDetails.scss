@@ -257,7 +257,7 @@
     color: $white;
 
     &:hover {
-      background-color: darken($primary-color, 8%);
+      background-color: color.adjust($primary-color, $lightness: -8%);
       box-shadow: 0 6px 20px rgba($primary-color, 0.3);
       transform: translateY(-2px);
     }
@@ -268,7 +268,7 @@
     color: $white;
 
     &:hover {
-      background-color: darken(#0068ff, 8%);
+      background-color: color.adjust(#0068ff, $lightness: -8%);
       box-shadow: 0 6px 20px rgba(#0068ff, 0.3);
       transform: translateY(-2px);
     }
