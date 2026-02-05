@@ -9,11 +9,16 @@ export const revalidate = 0; // Disable cache for development
 
 export default async function Home() {
   const { categories, products } = await getInitialData();
+  
+  // Serialize data to plain objects for Client Components
+  const serializedCategories = structuredClone(categories);
+  const serializedProducts = structuredClone(products);
+  
   return (
     <>
       <StoreInitializer
-        initialCategories={categories}
-        initialProducts={products}
+        initialCategories={serializedCategories}
+        initialProducts={serializedProducts}
       />
       <Header />
       <HeroSlider />

@@ -21,8 +21,6 @@ export async function getInitialData() {
       updatedAt: doc.data().updatedAt ? doc.data().updatedAt.toString() : null,
     }));
 
-    console.log('getInitialData - Categories fetched:', categories.length);
-
     return { categories, products };
   } catch (error) {
     console.error("Server Fetch Error:", error);

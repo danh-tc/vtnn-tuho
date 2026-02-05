@@ -1,5 +1,6 @@
 @use "@/styles/variables" as *;
 @use "@/styles/mixins" as *;
+@use "sass:color" as color;
 
 .product-details {
   padding: $spacing-3xl 0;

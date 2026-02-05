@@ -53,14 +53,18 @@ export default async function ProductPage({ params }) {
   // Load categories for store initializer
   const categories = await getAllCategories();
 
+  // Serialize data to plain objects for Client Components
+  const serializedProduct = structuredClone(product);
+  const serializedCategories = structuredClone(categories);
+
   return (
     <>
       <StoreInitializer
-        initialCategories={categories}
+        initialCategories={serializedCategories}
         initialProducts={[]}
       />
       <Header />
-      <ProductDetails product={product} />
+      <ProductDetails product={serializedProduct} />
       <Footer />
     </>
   );
