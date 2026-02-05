@@ -1,6 +1,7 @@
 import RegisterForm from "@/components/auth/RegisterForm/RegisterForm";
 import Header from "@/components/layout/header/Header";
 import Footer from "@/components/layout/footer/Footer";
+import ProtectedAuthPage from "@/components/auth/ProtectedAuthPage";
 
 export const metadata = {
   title: "Đăng ký | VTNN TƯ HỒ",
@@ -9,10 +10,12 @@ export const metadata = {
 
 export default function RegisterPage() {
   return (
-    <>
-      <Header />
-      <RegisterForm />
-      <Footer />
-    </>
+    <ProtectedAuthPage>
+      <>
+        <Header />
+        <RegisterForm />
+        <Footer />
+      </>
+    </ProtectedAuthPage>
   );
 }

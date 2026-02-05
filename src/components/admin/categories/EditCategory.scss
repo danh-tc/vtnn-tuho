@@ -1,0 +1,32 @@
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
+
+.edit-category {
+  &__header {
+    margin-bottom: $spacing-2xl;
+  }
+
+  &__title {
+    margin: 0;
+    font-size: $font-size-3xl;
+    font-weight: $font-weight-bold;
+    color: $text-main;
+  }
+
+  &__loading {
+    text-align: center;
+    padding: $spacing-4xl;
+    color: $text-light;
+    font-size: $font-size-lg;
+  }
+
+  &__error {
+    background-color: rgba($color-error, 0.1);
+    color: $color-error;
+    padding: $spacing-lg;
+    border-radius: $radius-md;
+    margin-bottom: $spacing-xl;
+    border-left: 4px solid $color-error;
+    font-weight: $font-weight-medium;
+  }
+}

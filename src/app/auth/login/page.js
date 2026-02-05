@@ -1,6 +1,7 @@
 import Header from "@/components/layout/header/Header";
 import Footer from "@/components/layout/footer/Footer";
 import LoginForm from "@/components/auth/LoginForm/LoginForm";
+import ProtectedAuthPage from "@/components/auth/ProtectedAuthPage";
 
 export const metadata = {
   title: "Đăng nhập | VTNN TƯ HỒ",
@@ -9,10 +10,12 @@ export const metadata = {
 
 export default function LoginPage() {
   return (
-    <>
-      <Header />
-      <LoginForm />
-      <Footer />
-    </>
+    <ProtectedAuthPage>
+      <>
+        <Header />
+        <LoginForm />
+        <Footer />
+      </>
+    </ProtectedAuthPage>
   );
 }

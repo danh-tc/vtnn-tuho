@@ -16,7 +16,15 @@ const CategoryTabs = ({ categories, activeTab, onTabChange }) => {
   const dropdownRef = useRef(null);
 
   const categoryTree = useMemo(
-    () => buildCategoryTree(categories),
+    () => {
+      console.log('CategoryTabs - Building tree from categories:', categories.length);
+      const tree = buildCategoryTree(categories);
+      console.log('CategoryTabs - Tree built:', tree.map(p => ({ 
+        name: p.name, 
+        childrenCount: p.children?.length || 0 
+      })));
+      return tree;
+    },
     [categories],
   );
 

@@ -1,0 +1,39 @@
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
+
+.protected-admin-page {
+  &__loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: $bg-light;
+  }
+
+  &__loader-content {
+    text-align: center;
+  }
+
+  &__spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid $bg-gray;
+    border-top: 4px solid $primary-color;
+    border-radius: $radius-full;
+    animation: spin 1s linear infinite;
+    margin: 0 auto $spacing-xl;
+  }
+
+  &__loader-text {
+    color: $text-light;
+    font-size: $font-size-base;
+    font-weight: $font-weight-medium;
+    margin: 0;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

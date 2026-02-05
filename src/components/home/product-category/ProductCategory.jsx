@@ -11,8 +11,11 @@ const ProductCategory = () => {
 
   const [selectedTab, setSelectedTab] = useState(null);
 
+  // Filter to show only parent categories
+  const parentCategories = categories.filter((cat) => !cat.parentId);
+
   const activeTab =
-    selectedTab || (categories.length > 0 ? categories[0].id : null);
+    selectedTab || (parentCategories.length > 0 ? parentCategories[0].id : null);
 
   const filteredProducts = products.filter((product) => {
     if (!activeTab) return false;
@@ -35,7 +38,7 @@ const ProductCategory = () => {
     );
   }
 
-  if (categories.length === 0) {
+  if (parentCategories.length === 0) {
     return null;
   }
 
@@ -47,7 +50,7 @@ const ProductCategory = () => {
         </div>
 
         <CategoryTabs
-          categories={categories}
+          categories={parentCategories}
           activeTab={activeTab}
           onTabChange={setSelectedTab}
         />

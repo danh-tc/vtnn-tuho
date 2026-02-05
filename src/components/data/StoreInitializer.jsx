@@ -11,6 +11,9 @@ export default function StoreInitializer({
   useEffect(() => {
     if (initialized.current) return;
 
+    console.log('StoreInitializer - Categories received:', initialCategories);
+    console.log('Categories with children:', initialCategories.filter(c => c.parentId));
+
     useStore.setState({
       categories: initialCategories,
       products: initialProducts,

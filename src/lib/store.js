@@ -5,6 +5,8 @@ export const useStore = create((set, get) => ({
   categories: [],
   isLoading: false,
   isInitialized: false,
+  currentUser: null,
+  isAdmin: false,
 
   getFilteredProducts: (keyword, categoryId = null) => {
     const { products } = get();
@@ -26,5 +28,13 @@ export const useStore = create((set, get) => ({
     }
 
     return result;
+  },
+
+  setCurrentUser: (user, role = "user") => {
+    set({ currentUser: user, isAdmin: role === "admin" });
+  },
+
+  clearCurrentUser: () => {
+    set({ currentUser: null, isAdmin: false });
   },
 }));

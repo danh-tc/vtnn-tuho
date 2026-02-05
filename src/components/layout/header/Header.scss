@@ -303,10 +303,57 @@
       width: $button-height-lg;
       height: $button-height-lg;
       @include icon-button;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+
+      &.admin-btn {
+        width: auto;
+        min-width: $button-height-lg;
+        height: $button-height-lg;
+        padding: 0 $spacing-lg;
+        background-color: $primary-color;
+        color: $white;
+        font-size: $font-size-base;
+        font-weight: $font-weight-bold;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        border-radius: $radius-md;
+        transition: all $transition-fast;
+        box-shadow: 0 2px 8px rgba($primary-color, 0.2);
+        border: none;
+
+        span {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          white-space: nowrap;
+        }
+
+        &:hover {
+          background-color: color.adjust($primary-color, $lightness: -5%);
+          box-shadow: 0 4px 12px rgba($primary-color, 0.3);
+          transform: translateY(-2px);
+        }
+
+        &:active {
+          transform: translateY(0);
+        }
+
+        @media screen and (max-width: $breakpoint-mobile) {
+          min-width: auto;
+          padding: 0 $spacing-md;
+          height: $button-height-md;
+          font-size: $font-size-sm;
+        }
+      }
 
       @media screen and (max-width: 375px) {
-        width: $button-height-sm;
-        height: $button-height-sm;
+        &.admin-btn {
+          height: $button-height-md;
+        }
       }
     }
 

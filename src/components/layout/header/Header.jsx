@@ -41,7 +41,8 @@ const Header = () => {
   const [accountExpanded, setAccountExpanded] = useState(false);
   const [productsExpanded, setProductsExpanded] = useState(false);
   const [othersExpanded, setOthersExpanded] = useState(false);
-  const { categories } = useStore();
+  const [userRole, setUserRole] = useState(null);
+  const { categories, setCurrentUser, clearCurrentUser } = useStore();
   const categoryTree = buildCategoryTree(categories);
 
   useEffect(() => {
@@ -50,6 +51,8 @@ const Header = () => {
 
       if (!user) {
         setDisplayName("");
+        setUserRole(null);
+        clearCurrentUser();
         return;
       }
 
@@ -63,8 +66,12 @@ const Header = () => {
           setDisplayName(
             data.firstName || data.username || user.displayName || user.email,
           );
+          setUserRole(data.role || "user");
+          setCurrentUser(user, data.role || "user");
         } else {
           setDisplayName(user.displayName || user.email || "");
+          setUserRole("user");
+          setCurrentUser(user, "user");
         }
       } catch (error) {
         // Fallback if Firestore is blocked (ad blocker, network issues, etc.)
@@ -73,6 +80,8 @@ const Header = () => {
           error.message,
         );
         setDisplayName(user.displayName || user.email || "Người dùng");
+        setUserRole("user");
+        setCurrentUser(user, "user");
       }
     });
 
@@ -135,7 +144,7 @@ const Header = () => {
                 type="text"
                 placeholder="Tìm kiếm sản phẩm, thuốc, phân bón..."
               />
-              <button>
+              <button aria-label="Tìm kiếm">
                 <LuSearch size={20} strokeWidth={2.5} />
               </button>
             </div>
@@ -145,8 +154,16 @@ const Header = () => {
             {authUser ? (
               <div
                 className="auth-greeting-wrapper"
+                tabIndex={0}
                 onMouseEnter={() => setShowDropdown(true)}
                 onMouseLeave={() => setShowDropdown(false)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    setShowDropdown(!showDropdown);
+                  }
+                }}
+                aria-label="Menu tài khoản"
               >
                 <div className="auth-greeting">
                   <LuUser size={20} strokeWidth={2.5} />
@@ -187,10 +204,16 @@ const Header = () => {
                 </Link>
               </div>
             )}
-            <Link href="/cart" className="icon-btn">
-              <LuShoppingBag size={22} strokeWidth={2.5} />
-              <span className="badge">2</span>
-            </Link>
+            {userRole === "admin" ? (
+              <Link href="/admin" className="icon-btn admin-btn" title="Quản lý">
+                <span>Quản lý</span>
+              </Link>
+            ) : (
+              <Link href="/cart" className="icon-btn">
+                <LuShoppingBag size={22} strokeWidth={2.5} />
+                <span className="badge">2</span>
+              </Link>
+            )}
           </div>
         </div>
       </div>
@@ -251,13 +274,21 @@ const Header = () => {
 
       <div
         className={`header__overlay ${menuOpen ? "open" : ""}`}
+        tabIndex={menuOpen ? 0 : -1}
         onClick={() => setMenuOpen(false)}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ' || e.key === 'Escape') {
+            e.preventDefault();
+            setMenuOpen(false);
+          }
+        }}
+        aria-label="Đóng menu"
       ></div>
 
       <div className={`header__mobile-menu ${menuOpen ? "open" : ""}`}>
         <div className="menu-header">
           <span>MENU</span>
-          <button onClick={() => setMenuOpen(false)}>
+          <button onClick={() => setMenuOpen(false)} aria-label="Đóng menu">
             <LuX />
           </button>
         </div>
@@ -267,6 +298,8 @@ const Header = () => {
             <button
               className="section-toggle-btn"
               onClick={() => setAccountExpanded(!accountExpanded)}
+              aria-label={accountExpanded ? "Thu gọn tài khoản" : "Mở rộng tài khoản"}
+              aria-expanded={accountExpanded}
             >
               {accountExpanded ? <LuMinus size={16} /> : <LuPlus size={16} />}
             </button>
@@ -344,6 +377,8 @@ const Header = () => {
             <button
               className="section-toggle-btn"
               onClick={() => setProductsExpanded(!productsExpanded)}
+              aria-label={productsExpanded ? "Thu gọn sản phẩm" : "Mở rộng sản phẩm"}
+              aria-expanded={productsExpanded}
             >
               {productsExpanded ? <LuMinus size={16} /> : <LuPlus size={16} />}
             </button>
@@ -372,6 +407,8 @@ const Header = () => {
                       <button
                         className="expand-btn"
                         onClick={(e) => toggleExpand(parent.id, e)}
+                        aria-label={isExpanded ? `Thu gọn ${parent.name}` : `Mở rộng ${parent.name}`}
+                        aria-expanded={isExpanded}
                       >
                         {isExpanded ? (
                           <LuMinus size={18} />
@@ -408,6 +445,8 @@ const Header = () => {
             <button
               className="section-toggle-btn"
               onClick={() => setOthersExpanded(!othersExpanded)}
+              aria-label={othersExpanded ? "Thu gọn khác" : "Mở rộng khác"}
+              aria-expanded={othersExpanded}
             >
               {othersExpanded ? <LuMinus size={16} /> : <LuPlus size={16} />}
             </button>

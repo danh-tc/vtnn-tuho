@@ -1,25 +1,27 @@
-import { collection, getDocs, query, orderBy } from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 import { db } from "./firebase";
 
 export async function getInitialData() {
   try {
-    const catQuery = query(
-      collection(db, "categories"),
-      orderBy("order", "asc"),
-    );
-    const catSnap = await getDocs(catQuery);
-
+    // Get all categories without orderBy to ensure all documents are fetched
+    const catSnap = await getDocs(collection(db, "categories"));
     const prodSnap = await getDocs(collection(db, "products"));
 
     const categories = catSnap.docs.map((doc) => ({
+      id: doc.id,
       ...doc.data(),
       createdAt: doc.data().createdAt ? doc.data().createdAt.toString() : null,
+      updatedAt: doc.data().updatedAt ? doc.data().updatedAt.toString() : null,
     }));
 
     const products = prodSnap.docs.map((doc) => ({
+      id: doc.id,
       ...doc.data(),
       createdAt: doc.data().createdAt ? doc.data().createdAt.toString() : null,
+      updatedAt: doc.data().updatedAt ? doc.data().updatedAt.toString() : null,
     }));
+
+    console.log('getInitialData - Categories fetched:', categories.length);
 
     return { categories, products };
   } catch (error) {

@@ -96,6 +96,7 @@ export async function registerWithEmail(email, password, userData) {
       address: userData.address.trim(),
       phone: userData.phone.trim(),
       authMethod: "email",
+      role: "user",
       createdAt: new Date(),
       updatedAt: new Date(),
     });
@@ -151,6 +152,7 @@ export async function registerWithGoogle() {
         address: "",
         phone: "",
         authMethod: "google",
+        role: "user",
         createdAt: new Date(),
         updatedAt: new Date(),
       });
@@ -267,6 +269,7 @@ export async function loginWithGoogle() {
         address: "",
         phone: "",
         authMethod: "google",
+        role: "user",
         createdAt: new Date(),
         updatedAt: new Date(),
       });
