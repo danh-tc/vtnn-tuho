@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
 import AdminSidebar from "../AdminSidebar";
 import "./AdminLayout.scss";
 
@@ -18,7 +19,12 @@ export default function AdminLayout({ children }) {
           >
             ☰
           </button>
-          <h1 className="admin-layout__title">Admin Panel</h1>
+
+          <div className="admin-layout__spacer" />
+
+          <Link href="/" className="admin-layout__home-link">
+            Về trang chủ
+          </Link>
         </div>
         <main className="admin-layout__main">{children}</main>
       </div>

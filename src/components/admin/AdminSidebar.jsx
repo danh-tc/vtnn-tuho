@@ -24,7 +24,10 @@ export default function AdminSidebar({ isOpen, onClose }) {
       )}
       <aside className={`admin-sidebar ${isOpen ? "open" : ""}`}>
         <div className="admin-sidebar__header">
-          <h2 className="admin-sidebar__logo">VTNN</h2>
+          <div className="admin-sidebar__logo">
+            <span className="brand-name">VTNN TƯ HỒ</span>
+            <span className="slogan">ĐỒNG HÀNH CÙNG NÔNG GIA</span>
+          </div>
           <button
             className="admin-sidebar__close-btn"
             onClick={onClose}

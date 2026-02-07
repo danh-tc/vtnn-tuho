@@ -5,6 +5,24 @@ import { useRouter } from "next/navigation";
 import { LuUpload, LuX } from "react-icons/lu";
 import "./CategoryForm.scss";
 
+// Vietnamese slug generator
+function generateSlug(name = "") {
+  return name
+    .toLowerCase()
+    .trim()
+    .replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a")
+    .replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, "e")
+    .replace(/ì|í|ị|ỉ|ĩ/g, "i")
+    .replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, "o")
+    .replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u")
+    .replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y")
+    .replace(/đ/g, "d")
+    .replace(/[^a-z0-9\s-]/g, "")
+    .replace(/[\s_]+/g, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
 export default function CategoryForm({ 
   initialData = null, 
   categories = [], 
@@ -33,15 +51,9 @@ export default function CategoryForm({
       [name]: type === "checkbox" ? checked : value,
     }));
     
-    // Auto-generate slug from name
+    // Auto-generate slug from name (only for new categories)
     if (name === "name" && !initialData) {
-      const slug = value
-        .toLowerCase()
-        .trim()
-        .replace(/[^\w\s-]/g, "")
-        .replace(/[\s_]+/g, "-")
-        .replace(/^-+|-+$/g, "");
-      setFormData((prev) => ({ ...prev, slug }));
+      setFormData((prev) => ({ ...prev, slug: generateSlug(value) }));
     }
 
     // Clear error when user types
@@ -127,8 +139,13 @@ export default function CategoryForm({
             onChange={handleChange}
             className={`category-form__input ${errors.slug ? "error" : ""}`}
             placeholder="slug-danh-muc"
-            disabled={isLoading}
+            disabled={isLoading || !!initialData}
           />
+          <span className="category-form__hint">
+            {initialData 
+              ? "Slug không thể thay đổi khi sửa." 
+              : "Nếu để trống sẽ tự tạo từ tên danh mục."}
+          </span>
           {errors.slug && <span className="category-form__error">{errors.slug}</span>}
         </div>
 

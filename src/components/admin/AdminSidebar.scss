@@ -50,11 +50,26 @@
   }
 
   &__logo {
-    margin: 0;
-    font-size: $font-size-2xl;
-    font-weight: $font-weight-heavy;
-    color: $primary-color;
-    letter-spacing: -0.5px;
+    text-align: center;
+
+    .brand-name {
+      display: block;
+      font-size: $font-size-2xl;
+      font-weight: $font-weight-heavy;
+      color: $primary-color;
+      text-transform: uppercase;
+      line-height: 1;
+      letter-spacing: -0.5px;
+    }
+
+    .slogan {
+      display: block;
+      font-size: $font-size-sm;
+      color: $text-light;
+      font-weight: $font-weight-semibold;
+      letter-spacing: 1px;
+      margin-top: $spacing-xs;
+    }
   }
 
   &__close-btn {

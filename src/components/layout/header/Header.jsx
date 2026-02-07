@@ -158,7 +158,7 @@ const Header = () => {
                 onMouseEnter={() => setShowDropdown(true)}
                 onMouseLeave={() => setShowDropdown(false)}
                 onKeyDown={(e) => {
-                  if (e.key === 'Enter' || e.key === ' ') {
+                  if (e.key === "Enter" || e.key === " ") {
                     e.preventDefault();
                     setShowDropdown(!showDropdown);
                   }
@@ -204,16 +204,21 @@ const Header = () => {
                 </Link>
               </div>
             )}
-            {userRole === "admin" ? (
-              <Link href="/admin" className="icon-btn admin-btn" title="Quản lý">
+            {userRole === "admin" && (
+              <Link
+                href="/admin"
+                className="icon-btn admin-btn"
+                title="Quản lý"
+              >
                 <span>Quản lý</span>
               </Link>
-            ) : (
-              <Link href="/cart" className="icon-btn">
-                <LuShoppingBag size={22} strokeWidth={2.5} />
-                <span className="badge">2</span>
-              </Link>
             )}
+            {/* Cart hidden - TODO: implement cart feature
+            <Link href="/cart" className="icon-btn">
+              <LuShoppingBag size={22} strokeWidth={2.5} />
+              <span className="badge">2</span>
+            </Link>
+            */}
           </div>
         </div>
       </div>
@@ -277,7 +282,7 @@ const Header = () => {
         tabIndex={menuOpen ? 0 : -1}
         onClick={() => setMenuOpen(false)}
         onKeyDown={(e) => {
-          if (e.key === 'Enter' || e.key === ' ' || e.key === 'Escape') {
+          if (e.key === "Enter" || e.key === " " || e.key === "Escape") {
             e.preventDefault();
             setMenuOpen(false);
           }
@@ -298,7 +303,9 @@ const Header = () => {
             <button
               className="section-toggle-btn"
               onClick={() => setAccountExpanded(!accountExpanded)}
-              aria-label={accountExpanded ? "Thu gọn tài khoản" : "Mở rộng tài khoản"}
+              aria-label={
+                accountExpanded ? "Thu gọn tài khoản" : "Mở rộng tài khoản"
+              }
               aria-expanded={accountExpanded}
             >
               {accountExpanded ? <LuMinus size={16} /> : <LuPlus size={16} />}
@@ -377,7 +384,9 @@ const Header = () => {
             <button
               className="section-toggle-btn"
               onClick={() => setProductsExpanded(!productsExpanded)}
-              aria-label={productsExpanded ? "Thu gọn sản phẩm" : "Mở rộng sản phẩm"}
+              aria-label={
+                productsExpanded ? "Thu gọn sản phẩm" : "Mở rộng sản phẩm"
+              }
               aria-expanded={productsExpanded}
             >
               {productsExpanded ? <LuMinus size={16} /> : <LuPlus size={16} />}
@@ -407,7 +416,11 @@ const Header = () => {
                       <button
                         className="expand-btn"
                         onClick={(e) => toggleExpand(parent.id, e)}
-                        aria-label={isExpanded ? `Thu gọn ${parent.name}` : `Mở rộng ${parent.name}`}
+                        aria-label={
+                          isExpanded
+                            ? `Thu gọn ${parent.name}`
+                            : `Mở rộng ${parent.name}`
+                        }
                         aria-expanded={isExpanded}
                       >
                         {isExpanded ? (

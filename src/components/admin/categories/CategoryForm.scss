@@ -86,6 +86,13 @@
     cursor: pointer;
   }
 
+  &__hint {
+    display: block;
+    margin-top: $spacing-xs;
+    color: $text-light;
+    font-size: $font-size-sm;
+  }
+
   &__error {
     display: block;
     margin-top: $spacing-sm;

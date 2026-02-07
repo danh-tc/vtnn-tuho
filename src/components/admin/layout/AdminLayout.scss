@@ -37,6 +37,25 @@
     }
   }
 
+  &__spacer {
+    flex: 1;
+  }
+
+  &__home-link {
+    font-size: $font-size-base;
+    color: $primary-color;
+    text-decoration: none;
+    padding: $spacing-sm $spacing-md;
+    border: 1px solid $primary-color;
+    border-radius: $radius-sm;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background-color: $primary-color;
+      color: $white;
+    }
+  }
+
   &__title {
     margin: 0;
     font-size: $font-size-3xl;
