@@ -22,11 +22,7 @@
     grid-template-columns: 1.5fr 1fr 1fr 1fr;
     gap: $spacing-3xl;
 
-    @media screen and (max-width: $breakpoint-tablet) {
-      grid-template-columns: 1fr 1fr;
-    }
-
-    @media screen and (max-width: $breakpoint-xs) {
+    @media screen and (max-width: $breakpoint-mobile) {
       grid-template-columns: 1fr;
       gap: $spacing-2xl;
     }
@@ -39,7 +35,7 @@
 
     .brand-name {
       display: block;
-      font-size: $font-size-3xl;
+      font-size: clamp($font-size-2xl, 4vw, $font-size-3xl);
       font-weight: $font-weight-heavy;
       color: $primary-color;
       text-transform: uppercase;
@@ -195,7 +191,7 @@
       justify-content: space-between;
       align-items: center;
 
-      @media screen and (max-width: $breakpoint-xs) {
+      @media screen and (max-width: $breakpoint-mobile) {
         flex-direction: column;
         gap: $spacing-xs;
         text-align: center;

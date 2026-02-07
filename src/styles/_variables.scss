@@ -31,13 +31,10 @@ $border-default: #e5e7eb;
 // Layout
 $container-width: 1320px;
 
-// Breakpoints
-$breakpoint-desktop: 1280px;  // >= 1280px = desktop
-$breakpoint-tablet: 1024px;   // <= 1024px = tablet
-$breakpoint-mobile: 1023px;   // <= 1023px = mobile
-$breakpoint-small: 768px;     // <= 768px = small mobile
-$breakpoint-xs: 640px;        // <= 640px = extra small
-$breakpoint-tiny: 375px;      // <= 375px = tiny screens
+// Breakpoints (simplified: mobile-first approach)
+// Desktop: >= 1024px (default styles)
+// Mobile: < 1024px (use media query with max-width: $breakpoint-mobile)
+$breakpoint-mobile: 1023px;   // For screens < 1024px
 
 // Spacing
 $section-padding: 20px 0;

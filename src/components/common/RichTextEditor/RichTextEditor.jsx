@@ -32,7 +32,7 @@ import './RichTextEditor.scss';
  * Toolbar Component
  */
 const EditorToolbar = ({ editor }) => {
-  const [fontSizeInput, setFontSizeInput] = React.useState('16');
+  const [fontSizeInput, setFontSizeInput] = React.useState('');
 
   // Update local state when editor selection changes
   React.useEffect(() => {
@@ -40,7 +40,7 @@ const EditorToolbar = ({ editor }) => {
 
     const updateFontSize = () => {
       const { fontSize } = editor.getAttributes('textStyle');
-      const size = fontSize ? parseInt(fontSize, 10) : 16;
+      const size = fontSize ? parseInt(fontSize, 10) : '';
       setFontSizeInput(String(size));
     };
 
@@ -71,6 +71,11 @@ const EditorToolbar = ({ editor }) => {
     if (size && size >= 8 && size <= 200) {
       editor.chain().focus().setFontSize(`${size}px`).run();
     }
+  };
+
+  const clearFontSize = () => {
+    editor.chain().focus().unsetFontSize().run();
+    setFontSizeInput('');
   };
 
   const fontSizeOptions = [8, 10, 12, 14, 16, 18, 20, 24, 28, 32, 36, 48, 72];
@@ -112,8 +117,18 @@ const EditorToolbar = ({ editor }) => {
           min="8"
           max="200"
           step="1"
+          placeholder="–"
         />
         <span className="font-size-unit">px</span>
+        <button
+          type="button"
+          onClick={clearFontSize}
+          className="font-size-clear"
+          title="Clear font size (use default)"
+          disabled={!fontSizeInput}
+        >
+          ×
+        </button>
       </div>
 
       <div className="toolbar-separator" />

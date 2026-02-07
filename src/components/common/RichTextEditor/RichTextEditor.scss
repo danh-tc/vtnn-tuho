@@ -100,8 +100,37 @@
           color: $text-light;
           font-size: $font-size-sm;
           font-weight: $font-weight-medium;
-          padding-right: $spacing-sm;
+          padding-right: $spacing-xs;
           user-select: none;
+        }
+
+        .font-size-clear {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 24px;
+          height: 100%;
+          padding: 0;
+          background: transparent;
+          border: none;
+          border-left: 1px solid $border-default;
+          border-radius: 0;
+          cursor: pointer;
+          color: $text-light;
+          font-size: $font-size-lg;
+          font-weight: $font-weight-medium;
+          transition: all $transition-fast;
+          min-width: auto;
+
+          &:hover:not(:disabled) {
+            background: rgba($color-error, 0.1);
+            color: $color-error;
+          }
+
+          &:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+          }
         }
       }
     }
@@ -463,7 +492,7 @@
   }
 
   // Responsive
-  @media (max-width: $breakpoint-small) {
+  @media (max-width: $breakpoint-mobile) {
     min-height: 300px;
 
     .novel-editor {

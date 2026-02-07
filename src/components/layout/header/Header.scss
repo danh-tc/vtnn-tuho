@@ -74,15 +74,12 @@
 
     .brand-name {
       display: block;
-      font-size: $font-size-3xl;
+      font-size: clamp($font-size-2xl, 4vw, $font-size-4xl);
       font-weight: $font-weight-heavy;
       color: $primary-color;
       text-transform: uppercase;
       line-height: 1;
       letter-spacing: -0.5px;
-      @media screen and (min-width: $breakpoint-desktop) {
-        font-size: $font-size-4xl;
-      }
     }
     .slogan {
       display: block;
@@ -91,7 +88,7 @@
       font-weight: $font-weight-semibold;
       letter-spacing: 2px;
       margin-top: $spacing-xs;
-      @media screen and (max-width: $breakpoint-tiny) {
+      @media screen and (max-width: $breakpoint-mobile) {
         display: none;
       }
     }
@@ -347,12 +344,6 @@
           padding: 0 $spacing-md;
           height: $button-height-md;
           font-size: $font-size-sm;
-        }
-      }
-
-      @media screen and (max-width: $breakpoint-tiny) {
-        &.admin-btn {
-          height: $button-height-md;
         }
       }
     }

@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import { LuCheck, LuX } from "react-icons/lu";
+import { useStore } from "@/lib/store";
 import { getProductById } from "@/lib/product";
 import "./ProductDetails.scss";
 
@@ -36,10 +37,25 @@ const ProductImage = ({ src, alt, onLoad }) => {
 export default function ProductDetails({ product, productId }) {
   const [productData, setProductData] = useState(product);
   const [userSelectedImage, setUserSelectedImage] = useState(null);
+  
+  // Get products from Zustand store
+  const storeProducts = useStore((state) => state.products);
 
   useEffect(() => {
     let isMounted = true;
 
+    // First, try to get product from store (already fetched by StoreInitializer)
+    const productFromStore = storeProducts.find(p => p.id === productId);
+    
+    if (productFromStore) {
+      // Product found in store - use it, no Firebase call needed!
+      if (isMounted) {
+        setProductData(productFromStore);
+      }
+      return;
+    }
+
+    // Product not in store yet - fetch individually (fallback for direct URL access)
     const fetchProduct = async () => {
       if (!productId) return;
       try {
@@ -56,7 +72,7 @@ export default function ProductDetails({ product, productId }) {
     return () => {
       isMounted = false;
     };
-  }, [productId]);
+  }, [productId, storeProducts]);
 
   if (!productData) {
     return null;

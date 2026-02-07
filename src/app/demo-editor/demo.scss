@@ -224,7 +224,7 @@
     }
   }
 
-  @media (max-width: $breakpoint-small) {
+  @media (max-width: $breakpoint-mobile) {
     padding: $spacing-xl;
 
     .demo-container {
