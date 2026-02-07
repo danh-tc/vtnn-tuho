@@ -28,7 +28,7 @@ const ProductImage = ({ src, alt }) => {
 
 const ProductCard = ({ product }) => {
   return (
-    <Link href={`/san-pham/${product.id}`} className="product-card">
+    <Link href={`/products/${product.id}`} className="product-card">
       <div className="card-image-wrapper">
         {/* Firebase uses 'thumbnail', fallback to 'image' if needed */}
         <ProductImage

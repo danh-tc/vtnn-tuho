@@ -234,7 +234,7 @@ const Header = () => {
             </li>
 
             <li className="has-dropdown">
-              <Link href="/san-pham">
+              <Link href="/products">
                 Sản phẩm <LuChevronDown size={14} style={{ marginBottom: 2 }} />
               </Link>
 
