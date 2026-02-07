@@ -23,69 +23,88 @@ export default function ProductForm({
   const router = useRouter();
   const categoryTree = useMemo(() => buildCategoryTree(categories), [categories]);
 
-  const [formData, setFormData] = useState({
-    id: "",
-    name: "",
-    price: "",
-    thumbnail: "",
-    images: [],
-    shortDescription: "",
-    activeIngredient: "",
-    uses: "",
-    dosage: "",
-    target: "",
-    packaging: "",
-    manufacturer: "",
-    origin: "",
-    content: "",
-    inStock: true,
-  });
+  const [formData, setFormData] = useState(() => ({
+    id: initialData?.id || "",
+    name: initialData?.name || "",
+    price: initialData?.price || "",
+    thumbnail: initialData?.thumbnail || "",
+    images: initialData?.images || [],
+    shortDescription: initialData?.shortDescription || "",
+    activeIngredient: initialData?.activeIngredient || "",
+    uses: initialData?.uses || "",
+    dosage: initialData?.dosage || "",
+    target: initialData?.target || "",
+    packaging: initialData?.packaging || "",
+    manufacturer: initialData?.manufacturer || "",
+    origin: initialData?.origin || "",
+    content: initialData?.content || "",
+    inStock: initialData?.inStock ?? true,
+  }));
 
-  const [parentCategoryId, setParentCategoryId] = useState("");
-  const [childCategoryId, setChildCategoryId] = useState("");
-  const [errors, setErrors] = useState({});
-
-  // Initialize form with existing data for edit mode
-  useEffect(() => {
-    if (initialData) {
-      setFormData({
-        id: initialData.id || "",
-        name: initialData.name || "",
-        price: initialData.price || "",
-        thumbnail: initialData.thumbnail || "",
-        images: initialData.images || [],
-        shortDescription: initialData.shortDescription || "",
-        activeIngredient: initialData.activeIngredient || "",
-        uses: initialData.uses || "",
-        dosage: initialData.dosage || "",
-        target: initialData.target || "",
-        packaging: initialData.packaging || "",
-        manufacturer: initialData.manufacturer || "",
-        origin: initialData.origin || "",
-        content: initialData.content || "",
-        inStock: initialData.inStock ?? true,
-      });
-
-      // Set category selections
-      const categoryIds = initialData.categoryIds || [];
-      if (categoryIds.length > 0) {
-        const firstCat = categories.find(c => c.id === categoryIds[0]);
-        if (firstCat) {
-          if (firstCat.parentId) {
-            // First is child, set parent and child
-            setParentCategoryId(firstCat.parentId);
-            setChildCategoryId(firstCat.id);
-          } else {
-            // First is parent
-            setParentCategoryId(firstCat.id);
-            if (categoryIds.length > 1) {
-              setChildCategoryId(categoryIds[1]);
-            }
-          }
-        }
+  const [parentCategoryId, setParentCategoryId] = useState(() => {
+    if (initialData?.categoryIds?.length > 0) {
+      const firstCat = categories.find(c => c.id === initialData.categoryIds[0]);
+      if (firstCat) {
+        return firstCat.parentId || firstCat.id;
       }
     }
-  }, [initialData, categories]);
+    return "";
+  });
+  
+  const [childCategoryId, setChildCategoryId] = useState(() => {
+    if (initialData?.categoryIds?.length > 0) {
+      const firstCat = categories.find(c => c.id === initialData.categoryIds[0]);
+      if (firstCat?.parentId) {
+        return firstCat.id;
+      } else if (initialData.categoryIds.length > 1) {
+        return initialData.categoryIds[1];
+      }
+    }
+    return "";
+  });
+  const [errors, setErrors] = useState({});
+  const [thumbnailPreview, setThumbnailPreview] = useState(null);
+  const [imagesPreviews, setImagesPreviews] = useState(() => 
+    initialData?.images ? new Array(initialData.images.length).fill(null) : []
+  );
+
+  const validateImageUrl = (url, callback) => {
+    if (!url?.trim()) {
+      callback(null);
+      return;
+    }
+    
+    const img = new Image();
+    img.onload = () => callback(url);
+    img.onerror = () => callback(null);
+    img.src = url;
+  };
+
+  // Initialize image previews when initialData is loaded
+  useEffect(() => {
+    if (initialData) {
+      // Validate and set thumbnail preview
+      if (initialData.thumbnail) {
+        validateImageUrl(initialData.thumbnail, (validUrl) => {
+          setThumbnailPreview(validUrl);
+        });
+      }
+
+      // Validate and set gallery images previews
+      if (initialData.images && initialData.images.length > 0) {
+        // Validate each image and update state individually
+        initialData.images.forEach((imageUrl, index) => {
+          validateImageUrl(imageUrl, (validUrl) => {
+            setImagesPreviews(prev => {
+              const updated = [...prev];
+              updated[index] = validUrl;
+              return updated;
+            });
+          });
+        });
+      }
+    }
+  }, [initialData]);
 
   const childOptions = useMemo(() => {
     return categories.filter((cat) => cat.parentId === parentCategoryId);
@@ -103,14 +122,35 @@ export default function ProductForm({
     }
   };
 
-  const handleImagesChange = (e) => {
-    const value = e.target.value;
-    const images = value
-      .split(";")
-      .map((line) => line.trim())
-      .filter(Boolean);
+  const handleImageChange = (index, value) => {
+    const newImages = [...formData.images];
+    newImages[index] = value;
+    setFormData((prev) => ({ ...prev, images: newImages }));
+  };
 
-    setFormData((prev) => ({ ...prev, images }));
+  const handleThumbnailBlur = () => {
+    validateImageUrl(formData.thumbnail, (validUrl) => {
+      setThumbnailPreview(validUrl);
+    });
+  };
+
+  const handleImageBlur = (index) => {
+    validateImageUrl(formData.images[index], (validUrl) => {
+      const newPreviews = [...imagesPreviews];
+      newPreviews[index] = validUrl;
+      setImagesPreviews(newPreviews);
+    });
+  };
+
+  const addImageField = () => {
+    setFormData((prev) => ({ ...prev, images: [...prev.images, ""] }));
+  };
+
+  const removeImageField = (index) => {
+    const newImages = formData.images.filter((_, i) => i !== index);
+    const newPreviews = imagesPreviews.filter((_, i) => i !== index);
+    setFormData((prev) => ({ ...prev, images: newImages }));
+    setImagesPreviews(newPreviews);
   };
 
   const validate = () => {
@@ -161,8 +201,15 @@ export default function ProductForm({
     });
   };
 
+  const handleFormKeyDown = (e) => {
+    // Prevent form submission when Enter is pressed in a textarea
+    if (e.key === "Enter" && e.target.tagName === "TEXTAREA") {
+      e.stopPropagation();
+    }
+  };
+
   return (
-    <form className="product-form" onSubmit={handleSubmit}>
+    <form className="product-form" onSubmit={handleSubmit} onKeyDown={handleFormKeyDown}>
       <div className="product-form__section">
         <h2 className="product-form__section-title">Thông tin cơ bản</h2>
 
@@ -291,28 +338,87 @@ export default function ProductForm({
         <h2 className="product-form__section-title">Hình ảnh</h2>
 
         <div className="product-form__field">
-          <label className="product-form__label">Ảnh đại diện (URL)</label>
+          <label className="product-form__label">Ảnh chính</label>
           <input
             type="text"
             name="thumbnail"
             value={formData.thumbnail}
             onChange={handleChange}
+            onBlur={handleThumbnailBlur}
             className="product-form__input"
             placeholder="https://..."
             disabled={isLoading}
           />
+          {thumbnailPreview && (
+            <div style={{ marginTop: '8px' }}>
+              <img 
+                src={thumbnailPreview} 
+                alt="Preview" 
+                style={{ 
+                  maxWidth: '200px', 
+                  maxHeight: '200px', 
+                  objectFit: 'contain',
+                  border: '1px solid #e5e7eb',
+                  borderRadius: '8px',
+                  padding: '4px'
+                }} 
+              />
+            </div>
+          )}
         </div>
 
         <div className="product-form__field">
-          <label className="product-form__label">Thư viện ảnh (phân cách bằng dấu ;)</label>
-          <textarea
-            className="product-form__textarea"
-            rows={4}
-            placeholder="https://...; https://..."
-            value={formData.images.join("; ")}
-            onChange={handleImagesChange}
+          <label className="product-form__label">Thư viện ảnh</label>
+          {formData.images.map((image, index) => (
+            <div key={index} style={{ marginBottom: '16px' }}>
+              <div style={{ display: 'flex', gap: '8px', marginBottom: '8px' }}>
+                <input
+                  type="text"
+                  value={image}
+                  onChange={(e) => handleImageChange(index, e.target.value)}
+                  onBlur={() => handleImageBlur(index)}
+                  className="product-form__input"
+                  placeholder="https://..."
+                  disabled={isLoading}
+                  style={{ flex: 1 }}
+                />
+                <button
+                  type="button"
+                  onClick={() => removeImageField(index)}
+                  className="product-form__btn-cancel"
+                  disabled={isLoading}
+                  style={{ padding: '0 16px', minWidth: 'auto' }}
+                >
+                  Xóa
+                </button>
+              </div>
+              {imagesPreviews[index] && (
+                <div style={{ marginLeft: '0' }}>
+                  <img 
+                    src={imagesPreviews[index]} 
+                    alt={`Preview ${index + 1}`}
+                    style={{ 
+                      maxWidth: '120px', 
+                      maxHeight: '120px', 
+                      objectFit: 'contain',
+                      border: '1px solid #e5e7eb',
+                      borderRadius: '8px',
+                      padding: '4px'
+                    }} 
+                  />
+                </div>
+              )}
+            </div>
+          ))}
+          <button
+            type="button"
+            onClick={addImageField}
+            className="product-form__btn-submit"
             disabled={isLoading}
-          />
+            style={{ marginTop: '8px', padding: '8px 16px', fontSize: '14px' }}
+          >
+            + Thêm ảnh
+          </button>
         </div>
       </div>
 

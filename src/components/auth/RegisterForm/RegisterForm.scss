@@ -84,7 +84,7 @@
   grid-template-columns: 1fr 1fr;
   gap: $spacing-lg;
 
-  @media (max-width: 600px) {
+  @media (max-width: $breakpoint-xs) {
     grid-template-columns: 1fr;
   }
 }

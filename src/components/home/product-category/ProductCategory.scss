@@ -36,7 +36,7 @@
       gap: $spacing-lg;
       flex-wrap: wrap;
 
-      @media (max-width: 768px) {
+      @media (max-width: $breakpoint-small) {
         display: none;
       }
     }
@@ -49,7 +49,7 @@
       margin: 0 auto;
       padding: 0 $spacing-lg;
 
-      @media (max-width: 768px) {
+      @media (max-width: $breakpoint-small) {
         display: block;
       }
 

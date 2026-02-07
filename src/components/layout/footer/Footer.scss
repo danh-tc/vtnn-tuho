@@ -22,11 +22,11 @@
     grid-template-columns: 1.5fr 1fr 1fr 1fr;
     gap: $spacing-3xl;
 
-    @media screen and (max-width: 1024px) {
+    @media screen and (max-width: $breakpoint-tablet) {
       grid-template-columns: 1fr 1fr;
     }
 
-    @media screen and (max-width: 640px) {
+    @media screen and (max-width: $breakpoint-xs) {
       grid-template-columns: 1fr;
       gap: $spacing-2xl;
     }
@@ -195,7 +195,7 @@
       justify-content: space-between;
       align-items: center;
 
-      @media screen and (max-width: 640px) {
+      @media screen and (max-width: $breakpoint-xs) {
         flex-direction: column;
         gap: $spacing-xs;
         text-align: center;

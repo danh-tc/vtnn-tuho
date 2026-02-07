@@ -6,6 +6,10 @@
   padding: $spacing-3xl 0;
   background-color: $bg-light;
 
+  @media (max-width: $breakpoint-small) {
+    padding: $spacing-xl 0;
+  }
+
   &__container {
     max-width: 1200px;
     margin: 0 auto;
@@ -15,9 +19,15 @@
     gap: $spacing-4xl;
     margin-bottom: $spacing-4xl;
 
-    @media (max-width: 968px) {
+    @media (max-width: $breakpoint-mobile) {
       grid-template-columns: 1fr;
       gap: $spacing-2xl;
+    }
+
+    @media (max-width: $breakpoint-small) {
+      padding: 0 $spacing-md;
+      gap: $spacing-lg;
+      margin-bottom: $spacing-2xl;
     }
   }
 
@@ -31,12 +41,20 @@
     display: flex;
     flex-direction: column;
     gap: $spacing-xl;
+
+    @media (max-width: $breakpoint-small) {
+      gap: $spacing-md;
+    }
   }
 
   &__tabs {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 $spacing-xl;
+
+    @media (max-width: $breakpoint-small) {
+      padding: 0 $spacing-md;
+    }
   }
 }
 
@@ -114,6 +132,12 @@
     background-color: $white;
     box-shadow: $shadow-sm;
 
+    @media (max-width: $breakpoint-small) {
+      width: 70px;
+      height: 70px;
+      border-width: 2px;
+    }
+
     &:hover {
       border-color: $primary-color;
       transform: translateY(-2px);
@@ -141,8 +165,9 @@
     line-height: 1.3;
     margin: 0;
 
-    @media (max-width: 768px) {
-      font-size: $font-size-3xl;
+    @media (max-width: $breakpoint-small) {
+      font-size: $font-size-2xl;
+      line-height: 1.4;
     }
   }
 
@@ -159,11 +184,19 @@
     border-radius: $radius-md;
     border-left: 4px solid $primary-color;
 
+    @media (max-width: $breakpoint-small) {
+      padding: $spacing-md;
+    }
+
     p {
       margin: 0;
       color: $text-secondary;
       line-height: 1.6;
       font-size: $font-size-lg;
+
+      @media (max-width: $breakpoint-small) {
+        font-size: $font-size-base;
+      }
     }
   }
 
@@ -175,6 +208,11 @@
     background-color: $white;
     border-radius: $radius-md;
     box-shadow: $shadow-sm;
+
+    @media (max-width: $breakpoint-small) {
+      padding: $spacing-md;
+      gap: $spacing-sm;
+    }
   }
 
   &__actions {
@@ -189,8 +227,8 @@
   font-weight: $font-weight-black;
   color: $color-accent;
 
-  @media (max-width: 768px) {
-    font-size: $font-size-3xl;
+  @media (max-width: $breakpoint-small) {
+    font-size: $font-size-2xl;
   }
 }
 
@@ -228,11 +266,20 @@
     font-weight: $font-weight-semibold;
     color: $text-secondary;
     min-width: 120px;
+
+    @media (max-width: $breakpoint-small) {
+      min-width: 90px;
+      font-size: $font-size-sm;
+    }
   }
 
   .spec-value {
     color: $text-main;
     font-weight: $font-weight-medium;
+
+    @media (max-width: $breakpoint-small) {
+      font-size: $font-size-sm;
+    }
   }
 }
 
@@ -249,8 +296,10 @@
   border: none;
   cursor: pointer;
 
-  @media (max-width: 768px) {
+  @media (max-width: $breakpoint-small) {
     min-width: 100%;
+    padding: $spacing-md $spacing-lg;
+    font-size: $font-size-base;
   }
 
   &--primary {
@@ -283,13 +332,18 @@
   padding: $spacing-3xl;
   box-shadow: $shadow-sm;
 
-  @media (max-width: 768px) {
-    padding: $spacing-xl;
+  @media (max-width: $breakpoint-small) {
+    padding: $spacing-lg;
+    border-radius: $radius-md;
   }
 }
 
 .tab-section {
   margin-bottom: $spacing-3xl;
+
+  @media (max-width: $breakpoint-small) {
+    margin-bottom: $spacing-xl;
+  }
 
   &:last-child {
     margin-bottom: 0;
@@ -302,6 +356,12 @@
     margin: 0 0 $spacing-lg 0;
     padding-bottom: $spacing-md;
     border-bottom: 2px solid $border-light;
+
+    @media (max-width: $breakpoint-small) {
+      font-size: $font-size-xl;
+      margin: 0 0 $spacing-md 0;
+      padding-bottom: $spacing-sm;
+    }
   }
 
   &__content {

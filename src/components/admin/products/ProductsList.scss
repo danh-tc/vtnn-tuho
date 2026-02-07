@@ -1,3 +1,5 @@
+@use "@/styles/variables" as *;
+
 .products-list {
   padding: 2rem;
 
@@ -166,7 +168,7 @@
     }
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: $breakpoint-small) {
     padding: 1rem;
 
     &__header {

@@ -237,12 +237,12 @@
   grid-template-columns: repeat($desktop-cols, 1fr);
   gap: $gap;
 
-  @media (max-width: 1024px) {
+  @media (max-width: $breakpoint-tablet) {
     grid-template-columns: repeat($tablet-cols, 1fr);
     gap: $gap - 5px;
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: $breakpoint-small) {
     grid-template-columns: repeat($mobile-cols, 1fr);
     gap: $gap - 10px;
   }
