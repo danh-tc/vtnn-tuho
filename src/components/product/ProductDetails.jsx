@@ -109,9 +109,10 @@ export default function ProductDetails({ product }) {
           </div>
 
           {product.shortDescription && (
-            <div className="info__description">
-              <p>{product.shortDescription}</p>
-            </div>
+            <div 
+              className="info__description"
+              dangerouslySetInnerHTML={{ __html: product.shortDescription }}
+            />
           )}
 
           {/* Quick Info */}
@@ -131,7 +132,10 @@ export default function ProductDetails({ product }) {
             {product.packaging && (
               <div className="spec-item">
                 <span className="spec-label">Quy cách:</span>
-                <span className="spec-value">{product.packaging}</span>
+                <span 
+                  className="spec-value"
+                  dangerouslySetInnerHTML={{ __html: product.packaging }}
+                />
               </div>
             )}
           </div>
@@ -154,36 +158,40 @@ export default function ProductDetails({ product }) {
           {product.activeIngredient && (
             <div className="tab-section">
               <h2 className="tab-section__title">Hoạt chất</h2>
-              <div className="tab-section__content">
-                <p>{product.activeIngredient}</p>
-              </div>
+              <div 
+                className="tab-section__content rich-text"
+                dangerouslySetInnerHTML={{ __html: product.activeIngredient }}
+              />
             </div>
           )}
 
           {product.uses && (
             <div className="tab-section">
               <h2 className="tab-section__title">Công dụng</h2>
-              <div className="tab-section__content">
-                <p>{product.uses}</p>
-              </div>
+              <div 
+                className="tab-section__content rich-text"
+                dangerouslySetInnerHTML={{ __html: product.uses }}
+              />
             </div>
           )}
 
           {product.dosage && (
             <div className="tab-section">
               <h2 className="tab-section__title">Liều lượng & Cách dùng</h2>
-              <div className="tab-section__content">
-                <p>{product.dosage}</p>
-              </div>
+              <div 
+                className="tab-section__content rich-text"
+                dangerouslySetInnerHTML={{ __html: product.dosage }}
+              />
             </div>
           )}
 
           {product.target && (
             <div className="tab-section">
               <h2 className="tab-section__title">Đối tượng sử dụng</h2>
-              <div className="tab-section__content">
-                <p>{product.target}</p>
-              </div>
+              <div 
+                className="tab-section__content rich-text"
+                dangerouslySetInnerHTML={{ __html: product.target }}
+              />
             </div>
           )}
 

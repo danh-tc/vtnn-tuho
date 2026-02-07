@@ -121,6 +121,7 @@ const EditorToolbar = ({ editor }) => {
       {/* Text Formatting */}
       <div className="toolbar-group">
         <button
+          type="button"
           onClick={() => editor.chain().focus().toggleBold().run()}
           className={editor.isActive('bold') ? 'is-active' : ''}
           title="Bold (Ctrl+B)"
@@ -128,6 +129,7 @@ const EditorToolbar = ({ editor }) => {
           <FaBold />
         </button>
         <button
+          type="button"
           onClick={() => editor.chain().focus().toggleItalic().run()}
           className={editor.isActive('italic') ? 'is-active' : ''}
           title="Italic (Ctrl+I)"
@@ -135,6 +137,7 @@ const EditorToolbar = ({ editor }) => {
           <FaItalic />
         </button>
         <button
+          type="button"
           onClick={() => editor.chain().focus().toggleUnderline().run()}
           className={editor.isActive('underline') ? 'is-active' : ''}
           title="Underline (Ctrl+U)"
@@ -142,6 +145,7 @@ const EditorToolbar = ({ editor }) => {
           <FaUnderline />
         </button>
         <button
+          type="button"
           onClick={() => editor.chain().focus().toggleStrike().run()}
           className={editor.isActive('strike') ? 'is-active' : ''}
           title="Strikethrough"
@@ -149,6 +153,7 @@ const EditorToolbar = ({ editor }) => {
           <FaStrikethrough />
         </button>
         <button
+          type="button"
           onClick={() => editor.chain().focus().toggleCode().run()}
           className={editor.isActive('code') ? 'is-active' : ''}
           title="Code"
@@ -162,6 +167,7 @@ const EditorToolbar = ({ editor }) => {
       {/* Headings & Paragraph */}
       <div className="toolbar-group">
         <button
+          type="button"
           onClick={() => editor.chain().focus().setParagraph().run()}
           className={editor.isActive('paragraph') ? 'is-active' : ''}
           title="Paragraph"
@@ -169,6 +175,7 @@ const EditorToolbar = ({ editor }) => {
           <FaParagraph />
         </button>
         <button
+          type="button"
           onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
           className={editor.isActive('heading', { level: 1 }) ? 'is-active' : ''}
           title="Heading 1"
@@ -176,6 +183,7 @@ const EditorToolbar = ({ editor }) => {
           H1
         </button>
         <button
+          type="button"
           onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
           className={editor.isActive('heading', { level: 2 }) ? 'is-active' : ''}
           title="Heading 2"
@@ -183,6 +191,7 @@ const EditorToolbar = ({ editor }) => {
           H2
         </button>
         <button
+          type="button"
           onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
           className={editor.isActive('heading', { level: 3 }) ? 'is-active' : ''}
           title="Heading 3"
@@ -196,6 +205,7 @@ const EditorToolbar = ({ editor }) => {
       {/* Text Alignment */}
       <div className="toolbar-group">
         <button
+          type="button"
           onClick={() => editor.chain().focus().setTextAlign('left').run()}
           className={editor.isActive({ textAlign: 'left' }) ? 'is-active' : ''}
           title="Align Left"
@@ -203,6 +213,7 @@ const EditorToolbar = ({ editor }) => {
           <FaAlignLeft />
         </button>
         <button
+          type="button"
           onClick={() => editor.chain().focus().setTextAlign('center').run()}
           className={editor.isActive({ textAlign: 'center' }) ? 'is-active' : ''}
           title="Align Center"
@@ -210,6 +221,7 @@ const EditorToolbar = ({ editor }) => {
           <FaAlignCenter />
         </button>
         <button
+          type="button"
           onClick={() => editor.chain().focus().setTextAlign('right').run()}
           className={editor.isActive({ textAlign: 'right' }) ? 'is-active' : ''}
           title="Align Right"
@@ -217,6 +229,7 @@ const EditorToolbar = ({ editor }) => {
           <FaAlignRight />
         </button>
         <button
+          type="button"
           onClick={() => editor.chain().focus().setTextAlign('justify').run()}
           className={editor.isActive({ textAlign: 'justify' }) ? 'is-active' : ''}
           title="Justify"
@@ -230,6 +243,7 @@ const EditorToolbar = ({ editor }) => {
       {/* Lists & Blockquote */}
       <div className="toolbar-group">
         <button
+          type="button"
           onClick={() => editor.chain().focus().toggleBulletList().run()}
           className={editor.isActive('bulletList') ? 'is-active' : ''}
           title="Bullet List"
@@ -237,6 +251,7 @@ const EditorToolbar = ({ editor }) => {
           <FaListUl />
         </button>
         <button
+          type="button"
           onClick={() => editor.chain().focus().toggleOrderedList().run()}
           className={editor.isActive('orderedList') ? 'is-active' : ''}
           title="Numbered List"
@@ -244,6 +259,7 @@ const EditorToolbar = ({ editor }) => {
           <FaListOl />
         </button>
         <button
+          type="button"
           onClick={() => editor.chain().focus().toggleBlockquote().run()}
           className={editor.isActive('blockquote') ? 'is-active' : ''}
           title="Blockquote"
@@ -257,6 +273,7 @@ const EditorToolbar = ({ editor }) => {
       {/* Link */}
       <div className="toolbar-group">
         <button
+          type="button"
           onClick={setLink}
           className={editor.isActive('link') ? 'is-active' : ''}
           title="Insert Link"
@@ -264,6 +281,7 @@ const EditorToolbar = ({ editor }) => {
           <FaLink />
         </button>
         <button
+          type="button"
           onClick={() => editor.chain().focus().unsetLink().run()}
           disabled={!editor.isActive('link')}
           title="Remove Link"
@@ -277,6 +295,7 @@ const EditorToolbar = ({ editor }) => {
       {/* Undo/Redo */}
       <div className="toolbar-group">
         <button
+          type="button"
           onClick={() => editor.chain().focus().undo().run()}
           disabled={!editor.can().undo()}
           title="Undo (Ctrl+Z)"
@@ -284,6 +303,7 @@ const EditorToolbar = ({ editor }) => {
           <FaUndo />
         </button>
         <button
+          type="button"
           onClick={() => editor.chain().focus().redo().run()}
           disabled={!editor.can().redo()}
           title="Redo (Ctrl+Shift+Z)"

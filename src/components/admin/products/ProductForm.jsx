@@ -422,15 +422,14 @@ export default function ProductForm({
         <h2 className="product-form__section-title">Thông tin chi tiết</h2>
 
         <div className="product-form__grid">
-          <div className="product-form__field">
+          <div className="product-form__field product-form__field--full">
             <label className="product-form__label">Hoạt chất</label>
-            <input
-              type="text"
-              name="activeIngredient"
+            <RichTextEditor
               value={formData.activeIngredient}
-              onChange={handleChange}
-              className="product-form__input"
-              disabled={isLoading}
+              onChange={(html) => setFormData((prev) => ({ ...prev, activeIngredient: html }))}
+              placeholder="Nhập hoạt chất..."
+              editable={!isLoading}
+              className="product-form__richtext--small"
             />
           </div>
           <div className="product-form__field product-form__field--full">

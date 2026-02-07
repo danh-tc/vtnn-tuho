@@ -7,6 +7,12 @@ import { getAllProducts } from "@/lib/product";
 import { getAllCategories } from "@/lib/category";
 import { notFound } from "next/navigation";
 
+// Helper function to strip HTML tags for plain text
+const stripHtml = (html) => {
+  if (!html) return '';
+  return html.replace(/<[^>]*>/g, '').trim();
+};
+
 export async function generateMetadata({ params }) {
   const { id } = await params;
   
@@ -14,7 +20,7 @@ export async function generateMetadata({ params }) {
     const product = await getProductById(id);
     return {
       title: `${product.name} | VTNN Tư Hồ`,
-      description: product.shortDescription || product.name,
+      description: stripHtml(product.shortDescription) || product.name,
     };
   } catch (error) {
     return {

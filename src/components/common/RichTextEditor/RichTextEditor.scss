@@ -4,7 +4,7 @@
 
 .rich-text-editor {
   width: 100%;
-  min-height: 400px;
+  min-height: 200px;
   border: 1px solid $border-default;
   border-radius: $radius-md;
   overflow: hidden;
@@ -195,13 +195,13 @@
 
   .novel-editor {
     width: 100%;
-    min-height: 350px;
+    min-height: 200px;
     padding: $spacing-xl;
 
     // Editor content styles
     .ProseMirror {
       outline: none;
-      min-height: 350px;
+      min-height: 150px;
       padding: 0;
 
       &:focus {

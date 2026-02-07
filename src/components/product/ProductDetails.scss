@@ -401,8 +401,25 @@
         padding-left: $spacing-2xl;
       }
 
+      ul {
+        list-style-type: disc;
+      }
+
+      ol {
+        list-style-type: decimal;
+      }
+
       li {
         margin-bottom: $spacing-sm;
+      }
+
+      a {
+        color: $primary-color;
+        text-decoration: underline;
+
+        &:hover {
+          color: color.adjust($primary-color, $lightness: -10%);
+        }
       }
 
       strong {
