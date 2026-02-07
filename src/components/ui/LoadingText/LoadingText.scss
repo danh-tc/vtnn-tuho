@@ -1,0 +1,8 @@
+@use "@/styles/variables" as *;
+
+.loading-text {
+  padding: $spacing-4xl 0;
+  text-align: center;
+  color: $text-light;
+  font-size: $font-size-lg;
+}

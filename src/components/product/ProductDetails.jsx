@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import { LuCheck, LuX } from "react-icons/lu";
+import { getProductById } from "@/lib/product";
 import "./ProductDetails.scss";
 
 const ProductImage = ({ src, alt, onLoad }) => {
@@ -32,14 +33,44 @@ const ProductImage = ({ src, alt, onLoad }) => {
   );
 };
 
-export default function ProductDetails({ product }) {
-  const [selectedImage, setSelectedImage] = useState(product.thumbnail || product.images?.[0] || "");
-  const [imageKey, setImageKey] = useState(0);
+export default function ProductDetails({ product, productId }) {
+  const [productData, setProductData] = useState(product);
+  const [userSelectedImage, setUserSelectedImage] = useState(null);
 
-  const allImages = [
-    product.thumbnail,
-    ...(product.images || [])
-  ].filter(Boolean);
+  useEffect(() => {
+    let isMounted = true;
+
+    const fetchProduct = async () => {
+      if (!productId) return;
+      try {
+        const freshProduct = await getProductById(productId);
+        if (isMounted && freshProduct) {
+          setProductData(freshProduct);
+        }
+      } catch (error) {
+        console.warn("Không thể tải dữ liệu sản phẩm mới:", error?.message);
+      }
+    };
+
+    fetchProduct();
+    return () => {
+      isMounted = false;
+    };
+  }, [productId]);
+
+  if (!productData) {
+    return null;
+  }
+
+  const allImages = [productData.thumbnail, ...(productData.images || [])].filter(Boolean);
+
+  const selectedImage = useMemo(() => {
+    if (!allImages.length) return "";
+    if (userSelectedImage && allImages.includes(userSelectedImage)) {
+      return userSelectedImage;
+    }
+    return allImages[0];
+  }, [allImages, userSelectedImage]);
 
   const formatPrice = (price) => {
     return new Intl.NumberFormat("vi-VN", {
@@ -56,9 +87,9 @@ export default function ProductDetails({ product }) {
           <div className="gallery__main">
             <div className="gallery__main-image">
               <ProductImage
-                key={imageKey}
+                key={`${productData.id}-${selectedImage}`}
                 src={selectedImage}
-                alt={product.name}
+                alt={productData.name}
               />
             </div>
           </div>
@@ -69,10 +100,7 @@ export default function ProductDetails({ product }) {
                 <button
                   key={index}
                   className={`gallery__thumbnail ${selectedImage === img ? "active" : ""}`}
-                  onClick={() => {
-                    setSelectedImage(img);
-                    setImageKey(prev => prev + 1);
-                  }}
+                  onClick={() => setUserSelectedImage(img)}
                 >
                   <Image
                     src={img}
@@ -89,12 +117,14 @@ export default function ProductDetails({ product }) {
 
         {/* Product Info */}
         <div className="product-details__info">
-          <h1 className="info__title">{product.name}</h1>
+          <h1 className="info__title">{productData.name}</h1>
 
           <div className="info__price-section">
-            <div className="price__main">{formatPrice(product.price)}</div>
-            <div className={`stock-badge ${product.inStock ? "in-stock" : "out-of-stock"}`}>
-              {product.inStock ? (
+            <div className="price__main">{formatPrice(productData.price)}</div>
+            <div
+              className={`stock-badge ${productData.inStock ? "in-stock" : "out-of-stock"}`}
+            >
+              {productData.inStock ? (
                 <>
                   <LuCheck size={18} />
                   <span>Còn hàng</span>
@@ -108,33 +138,33 @@ export default function ProductDetails({ product }) {
             </div>
           </div>
 
-          {product.shortDescription && (
+          {productData.shortDescription && (
             <div 
               className="info__description"
-              dangerouslySetInnerHTML={{ __html: product.shortDescription }}
+              dangerouslySetInnerHTML={{ __html: productData.shortDescription }}
             />
           )}
 
           {/* Quick Info */}
           <div className="info__quick-specs">
-            {product.manufacturer && (
+            {productData.manufacturer && (
               <div className="spec-item">
                 <span className="spec-label">Nhà sản xuất:</span>
-                <span className="spec-value">{product.manufacturer}</span>
+                <span className="spec-value">{productData.manufacturer}</span>
               </div>
             )}
-            {product.origin && (
+            {productData.origin && (
               <div className="spec-item">
                 <span className="spec-label">Xuất xứ:</span>
-                <span className="spec-value">{product.origin}</span>
+                <span className="spec-value">{productData.origin}</span>
               </div>
             )}
-            {product.packaging && (
+            {productData.packaging && (
               <div className="spec-item">
                 <span className="spec-label">Quy cách:</span>
                 <span 
                   className="spec-value"
-                  dangerouslySetInnerHTML={{ __html: product.packaging }}
+                  dangerouslySetInnerHTML={{ __html: productData.packaging }}
                 />
               </div>
             )}
@@ -155,52 +185,52 @@ export default function ProductDetails({ product }) {
       {/* Detailed Information Tabs */}
       <div className="product-details__tabs">
         <div className="tabs__container">
-          {product.activeIngredient && (
+          {productData.activeIngredient && (
             <div className="tab-section">
               <h2 className="tab-section__title">Hoạt chất</h2>
               <div 
                 className="tab-section__content rich-text"
-                dangerouslySetInnerHTML={{ __html: product.activeIngredient }}
+                dangerouslySetInnerHTML={{ __html: productData.activeIngredient }}
               />
             </div>
           )}
 
-          {product.uses && (
+          {productData.uses && (
             <div className="tab-section">
               <h2 className="tab-section__title">Công dụng</h2>
               <div 
                 className="tab-section__content rich-text"
-                dangerouslySetInnerHTML={{ __html: product.uses }}
+                dangerouslySetInnerHTML={{ __html: productData.uses }}
               />
             </div>
           )}
 
-          {product.dosage && (
+          {productData.dosage && (
             <div className="tab-section">
               <h2 className="tab-section__title">Liều lượng & Cách dùng</h2>
               <div 
                 className="tab-section__content rich-text"
-                dangerouslySetInnerHTML={{ __html: product.dosage }}
+                dangerouslySetInnerHTML={{ __html: productData.dosage }}
               />
             </div>
           )}
 
-          {product.target && (
+          {productData.target && (
             <div className="tab-section">
               <h2 className="tab-section__title">Đối tượng sử dụng</h2>
               <div 
                 className="tab-section__content rich-text"
-                dangerouslySetInnerHTML={{ __html: product.target }}
+                dangerouslySetInnerHTML={{ __html: productData.target }}
               />
             </div>
           )}
 
-          {product.content && (
+          {productData.content && (
             <div className="tab-section">
               <h2 className="tab-section__title">Thông tin chi tiết</h2>
               <div 
                 className="tab-section__content rich-text"
-                dangerouslySetInnerHTML={{ __html: product.content }}
+                dangerouslySetInnerHTML={{ __html: productData.content }}
               />
             </div>
           )}

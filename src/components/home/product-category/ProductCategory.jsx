@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import CategoryTabs from "./CategoryTabs";
 import ProductCard from "./ProductCard";
+import LoadingText from "@/components/ui/LoadingText/LoadingText";
 import { useStore } from "@/lib/store";
 import "./ProductCategory.scss";
 
@@ -29,11 +30,8 @@ const ProductCategory = () => {
 
   if (isLoading) {
     return (
-      <div
-        className="container"
-        style={{ padding: "50px", textAlign: "center" }}
-      >
-        Đang tải dữ liệu...
+      <div className="container">
+        <LoadingText />
       </div>
     );
   }

@@ -70,7 +70,7 @@ export default async function ProductPage({ params }) {
         initialProducts={[]}
       />
       <Header />
-      <ProductDetails product={serializedProduct} />
+      <ProductDetails product={serializedProduct} productId={id} />
       <Footer />
     </>
   );
