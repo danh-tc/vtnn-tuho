@@ -1,0 +1,478 @@
+@use "sass:color";
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
+
+.rich-text-editor {
+  width: 100%;
+  min-height: 400px;
+  border: 1px solid $border-default;
+  border-radius: $radius-md;
+  overflow: hidden;
+  background: $white;
+
+  // Toolbar styles
+  .editor-toolbar {
+    display: flex;
+    align-items: center;
+    gap: $spacing-xs;
+    padding: $spacing-md $spacing-xl;
+    background: $bg-light;
+    border-bottom: 1px solid $border-default;
+    flex-wrap: wrap;
+
+    .toolbar-group {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+
+      &.font-size-group {
+        gap: 0;
+        padding: 0;
+        background: $white;
+        border: 1px solid $border-default;
+        border-radius: $radius-sm;
+        transition: all $transition-fast;
+        height: 34px;
+        overflow: hidden;
+
+        &:hover {
+          border-color: color.adjust($border-default, $lightness: -10%);
+        }
+
+        &:focus-within {
+          border-color: $primary-color;
+          box-shadow: 0 0 0 2px color.adjust($primary-color, $alpha: -0.85);
+        }
+
+        .font-size-select {
+          padding: 0 $spacing-sm;
+          padding-right: $spacing-xs;
+          background: transparent;
+          border: none;
+          border-right: 1px solid $border-default;
+          border-radius: 0;
+          cursor: pointer;
+          color: $text-dark;
+          font-size: $font-size-sm;
+          font-weight: $font-weight-medium;
+          height: 100%;
+          min-width: 55px;
+          appearance: none;
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+          background-repeat: no-repeat;
+          background-position: right 6px center;
+          padding-right: 22px;
+
+          &:focus {
+            outline: none;
+          }
+        }
+
+        .font-size-input {
+          width: 32px;
+          padding: 0 $spacing-xs;
+          background: transparent;
+          border: none;
+          color: $text-dark;
+          font-size: $font-size-sm;
+          font-weight: $font-weight-medium;
+          text-align: center;
+          height: 100%;
+
+          &:focus {
+            outline: none;
+            background: color.adjust($primary-color, $alpha: -0.95);
+          }
+
+          /* Remove spinner arrows */
+          &::-webkit-inner-spin-button,
+          &::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+          }
+          
+          &[type=number] {
+            -moz-appearance: textfield;
+          }
+        }
+
+        .font-size-unit {
+          color: $text-light;
+          font-size: $font-size-sm;
+          font-weight: $font-weight-medium;
+          padding-right: $spacing-sm;
+          user-select: none;
+        }
+      }
+    }
+
+    button {
+      padding: $spacing-sm $spacing-md;
+      background: $white;
+      border: 1px solid transparent;
+      border-radius: $radius-sm;
+      cursor: pointer;
+      color: $text-dark;
+      transition: all $transition-fast;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 36px;
+      height: 36px;
+      font-size: $font-size-sm;
+      font-weight: $font-weight-semibold;
+
+      svg {
+        width: 16px;
+        height: 16px;
+      }
+
+      &:hover:not(:disabled) {
+        background: $bg-gray;
+        border-color: $border-default;
+      }
+
+      &:disabled {
+        opacity: 0.3;
+        cursor: not-allowed;
+        background: transparent;
+      }
+
+      &.is-active {
+        background: $primary-color;
+        color: $white;
+        border-color: $primary-color;
+      }
+    }
+
+    .toolbar-separator {
+      width: 1px;
+      height: 24px;
+      background: $border-default;
+      margin: 0 $spacing-sm;
+    }
+  }
+
+  // Bubble menu (appears when text is selected)
+  .editor-bubble {
+    display: flex;
+    gap: $spacing-xs;
+    padding: $spacing-xs;
+    background: $white;
+    border: 1px solid $border-default;
+    border-radius: $radius-md;
+    box-shadow: $shadow-lg;
+
+    button {
+      padding: $spacing-sm;
+      background: none;
+      border: none;
+      border-radius: $radius-sm;
+      cursor: pointer;
+      color: $text-dark;
+      transition: background $transition-fast;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 32px;
+      height: 32px;
+
+      svg {
+        width: 16px;
+        height: 16px;
+      }
+
+      &:hover {
+        background: $bg-gray;
+      }
+
+      &.is-active {
+        background: $primary-color;
+        color: $white;
+      }
+    }
+  }
+
+  .novel-editor {
+    width: 100%;
+    min-height: 350px;
+    padding: $spacing-xl;
+
+    // Editor content styles
+    .ProseMirror {
+      outline: none;
+      min-height: 350px;
+      padding: 0;
+
+      &:focus {
+        outline: none;
+      }
+
+      // Placeholder
+      p.is-editor-empty:first-child::before {
+        color: $text-muted;
+        content: attr(data-placeholder);
+        float: left;
+        height: 0;
+        pointer-events: none;
+      }
+
+      // Headings
+      h1 {
+        font-size: 2em;
+        font-weight: $font-weight-bold;
+        margin-top: 0.67em;
+        margin-bottom: 0.67em;
+      }
+
+      h2 {
+        font-size: 1.5em;
+        font-weight: $font-weight-bold;
+        margin-top: 0.83em;
+        margin-bottom: 0.83em;
+      }
+
+      h3 {
+        font-size: 1.17em;
+        font-weight: $font-weight-bold;
+        margin-top: 1em;
+        margin-bottom: 1em;
+      }
+
+      // Lists
+      ul, ol {
+        padding-left: $spacing-2xl;
+        margin: $spacing-xl 0;
+      }
+
+      ul {
+        list-style-type: disc;
+      }
+
+      ol {
+        list-style-type: decimal;
+      }
+
+      li {
+        margin: $spacing-xs 0;
+      }
+
+      // Code blocks
+      pre {
+        background: $text-dark;
+        color: $bg-light;
+        font-family: 'Courier New', monospace;
+        padding: $spacing-xl;
+        border-radius: $radius-md;
+        overflow-x: auto;
+        margin: $spacing-xl 0;
+
+        code {
+          background: none;
+          color: inherit;
+          font-size: $font-size-base;
+          padding: 0;
+        }
+      }
+
+      // Inline code
+      code {
+        background: $bg-gray;
+        color: $text-dark;
+        padding: $spacing-xs $spacing-sm;
+        border-radius: $radius-sm;
+        font-size: $font-size-base;
+        font-family: 'Courier New', monospace;
+      }
+
+      // Blockquotes
+      blockquote {
+        border-left: 4px solid $border-default;
+        padding-left: $spacing-xl;
+        margin-left: 0;
+        margin-right: 0;
+        font-style: italic;
+        color: $text-secondary;
+      }
+
+      // Links
+      a {
+        color: $color-info;
+        text-decoration: underline;
+        cursor: pointer;
+
+        &:hover {
+          color: color.adjust($color-info, $lightness: -10%);
+        }
+      }
+
+      // Bold, Italic, Strikethrough
+      strong {
+        font-weight: $font-weight-bold;
+      }
+
+      em {
+        font-style: italic;
+      }
+
+      s {
+        text-decoration: line-through;
+      }
+
+      // Horizontal rule
+      hr {
+        border: none;
+        border-top: 2px solid $border-default;
+        margin: $spacing-3xl 0;
+      }
+
+      // Images
+      img {
+        max-width: 100%;
+        height: auto;
+        border-radius: $radius-md;
+        margin: $spacing-xl 0;
+      }
+
+      // Tables
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        margin: $spacing-xl 0;
+
+        td, th {
+          border: 1px solid $border-default;
+          padding: $spacing-md;
+          text-align: left;
+        }
+
+        th {
+          background: $bg-gray;
+          font-weight: $font-weight-bold;
+        }
+      }
+    }
+  }
+
+  // Bubble menu styles
+  .novel-bubble-menu {
+    background: $white;
+    border: 1px solid $border-default;
+    border-radius: $radius-md;
+    box-shadow: $shadow-lg;
+    padding: $spacing-xs;
+    display: flex;
+    gap: $spacing-xs;
+
+    button {
+      padding: $spacing-md;
+      border-radius: $radius-sm;
+      background: none;
+      border: none;
+      cursor: pointer;
+      transition: background $transition-fast;
+
+      &:hover {
+        background: $bg-gray;
+      }
+
+      &.is-active {
+        background: $border-default;
+      }
+    }
+  }
+
+  // Slash command menu
+  .novel-slash-command {
+    background: $white;
+    border: 1px solid $border-default;
+    border-radius: $radius-md;
+    box-shadow: $shadow-lg;
+    padding: $spacing-md;
+    max-height: 300px;
+    overflow-y: auto;
+
+    .slash-command-item {
+      padding: $spacing-md;
+      border-radius: $radius-sm;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: $spacing-lg;
+
+      &:hover, &.is-selected {
+        background: $bg-gray;
+      }
+
+      .item-icon {
+        width: $spacing-3xl;
+        height: $spacing-3xl;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: $radius-sm;
+        background: $bg-gray;
+      }
+
+      .item-content {
+        flex: 1;
+
+        .item-title {
+          font-weight: $font-weight-medium;
+          color: $text-dark;
+        }
+
+        .item-description {
+          font-size: $font-size-base;
+          color: $text-secondary;
+        }
+      }
+    }
+  }
+
+  // Dark mode support
+  &.dark-mode {
+    background: $text-dark;
+    border-color: color.adjust($text-dark, $lightness: 15%);
+
+    .ProseMirror {
+      color: $bg-light;
+
+      p.is-editor-empty:first-child::before {
+        color: $text-secondary;
+      }
+
+      code {
+        background: color.adjust($text-dark, $lightness: 15%);
+        color: $bg-light;
+      }
+
+      blockquote {
+        border-left-color: color.adjust($text-dark, $lightness: 15%);
+        color: $text-muted;
+      }
+
+      a {
+        color: color.adjust($color-info, $lightness: 20%);
+
+        &:hover {
+          color: color.adjust($color-info, $lightness: 40%);
+        }
+      }
+    }
+  }
+
+  // Responsive
+  @media (max-width: $breakpoint-small) {
+    min-height: 300px;
+
+    .novel-editor {
+      min-height: 300px;
+
+      .ProseMirror {
+        min-height: 300px;
+        padding: $spacing-lg;
+      }
+    }
+  }
+}

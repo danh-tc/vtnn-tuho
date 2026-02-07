@@ -39,6 +39,18 @@
     &:last-child {
       margin-bottom: 0;
     }
+
+    &--full {
+      grid-column: 1 / -1;
+    }
+  }
+
+  &__richtext--small {
+    min-height: 150px;
+
+    .novel-editor {
+      min-height: 100px;
+    }
   }
 
   &__label {

@@ -2,8 +2,7 @@
 
 import { useMemo, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { useEditor, EditorContent } from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
+import RichTextEditor from "@/components/common/RichTextEditor";
 import "./ProductForm.scss";
 
 const buildCategoryTree = (categories) => {
@@ -166,25 +165,9 @@ export default function ProductForm({
     return Object.keys(newErrors).length === 0;
   };
 
-  const editor = useEditor({
-    extensions: [StarterKit],
-    content: formData.content || "",
-    editorProps: {
-      attributes: {
-        class: "tiptap-editor",
-      },
-    },
-    onUpdate: ({ editor }) => {
-      setFormData((prev) => ({ ...prev, content: editor.getHTML() }));
-    },
-  });
-
-  // Update editor content when initialData changes
-  useEffect(() => {
-    if (editor && initialData && initialData.content) {
-      editor.commands.setContent(initialData.content);
-    }
-  }, [editor, initialData]);
+  const handleContentChange = (html) => {
+    setFormData((prev) => ({ ...prev, content: html }));
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -425,14 +408,12 @@ export default function ProductForm({
       <div className="product-form__section">
         <h2 className="product-form__section-title">Mô tả nhanh</h2>
         <div className="product-form__field">
-          <textarea
-            name="shortDescription"
+          <RichTextEditor
             value={formData.shortDescription}
-            onChange={handleChange}
-            className="product-form__textarea"
-            rows={3}
-            placeholder="Mô tả ngắn về sản phẩm"
-            disabled={isLoading}
+            onChange={(html) => setFormData((prev) => ({ ...prev, shortDescription: html }))}
+            placeholder="Mô tả ngắn về sản phẩm..."
+            editable={!isLoading}
+            className="product-form__richtext--small"
           />
         </div>
       </div>
@@ -452,48 +433,44 @@ export default function ProductForm({
               disabled={isLoading}
             />
           </div>
-          <div className="product-form__field">
+          <div className="product-form__field product-form__field--full">
             <label className="product-form__label">Công dụng</label>
-            <input
-              type="text"
-              name="uses"
+            <RichTextEditor
               value={formData.uses}
-              onChange={handleChange}
-              className="product-form__input"
-              disabled={isLoading}
+              onChange={(html) => setFormData((prev) => ({ ...prev, uses: html }))}
+              placeholder="Nhập công dụng sản phẩm..."
+              editable={!isLoading}
+              className="product-form__richtext--small"
             />
           </div>
-          <div className="product-form__field">
+          <div className="product-form__field product-form__field--full">
             <label className="product-form__label">Liều lượng</label>
-            <input
-              type="text"
-              name="dosage"
+            <RichTextEditor
               value={formData.dosage}
-              onChange={handleChange}
-              className="product-form__input"
-              disabled={isLoading}
+              onChange={(html) => setFormData((prev) => ({ ...prev, dosage: html }))}
+              placeholder="Nhập liều lượng..."
+              editable={!isLoading}
+              className="product-form__richtext--small"
             />
           </div>
-          <div className="product-form__field">
+          <div className="product-form__field product-form__field--full">
             <label className="product-form__label">Đối tượng</label>
-            <input
-              type="text"
-              name="target"
+            <RichTextEditor
               value={formData.target}
-              onChange={handleChange}
-              className="product-form__input"
-              disabled={isLoading}
+              onChange={(html) => setFormData((prev) => ({ ...prev, target: html }))}
+              placeholder="Nhập đối tượng áp dụng..."
+              editable={!isLoading}
+              className="product-form__richtext--small"
             />
           </div>
-          <div className="product-form__field">
+          <div className="product-form__field product-form__field--full">
             <label className="product-form__label">Quy cách</label>
-            <input
-              type="text"
-              name="packaging"
+            <RichTextEditor
               value={formData.packaging}
-              onChange={handleChange}
-              className="product-form__input"
-              disabled={isLoading}
+              onChange={(html) => setFormData((prev) => ({ ...prev, packaging: html }))}
+              placeholder="Nhập quy cách đóng gói..."
+              editable={!isLoading}
+              className="product-form__richtext--small"
             />
           </div>
           <div className="product-form__field">
@@ -522,60 +499,15 @@ export default function ProductForm({
       </div>
 
       <div className="product-form__section">
-        <h2 className="product-form__section-title">Nội dung chi tiết (Rich Text)</h2>
+        <h2 className="product-form__section-title">Thông tin bổ sung</h2>
 
         <div className="product-form__field">
-          <div className="tiptap-toolbar">
-            <button
-              type="button"
-              onClick={() => editor?.chain().focus().toggleBold().run()}
-              className={editor?.isActive("bold") ? "is-active" : ""}
-              disabled={isLoading}
-            >
-              <strong>B</strong>
-            </button>
-            <button
-              type="button"
-              onClick={() => editor?.chain().focus().toggleItalic().run()}
-              className={editor?.isActive("italic") ? "is-active" : ""}
-              disabled={isLoading}
-            >
-              <em>I</em>
-            </button>
-            <button
-              type="button"
-              onClick={() => editor?.chain().focus().toggleHeading({ level: 2 }).run()}
-              className={editor?.isActive("heading", { level: 2 }) ? "is-active" : ""}
-              disabled={isLoading}
-            >
-              H2
-            </button>
-            <button
-              type="button"
-              onClick={() => editor?.chain().focus().toggleHeading({ level: 3 }).run()}
-              className={editor?.isActive("heading", { level: 3 }) ? "is-active" : ""}
-              disabled={isLoading}
-            >
-              H3
-            </button>
-            <button
-              type="button"
-              onClick={() => editor?.chain().focus().toggleBulletList().run()}
-              className={editor?.isActive("bulletList") ? "is-active" : ""}
-              disabled={isLoading}
-            >
-              • List
-            </button>
-            <button
-              type="button"
-              onClick={() => editor?.chain().focus().toggleOrderedList().run()}
-              className={editor?.isActive("orderedList") ? "is-active" : ""}
-              disabled={isLoading}
-            >
-              1. List
-            </button>
-          </div>
-          <EditorContent editor={editor} />
+          <RichTextEditor
+            value={formData.content}
+            onChange={handleContentChange}
+            placeholder="Nhập nội dung chi tiết sản phẩm..."
+            editable={!isLoading}
+          />
         </div>
       </div>
 
