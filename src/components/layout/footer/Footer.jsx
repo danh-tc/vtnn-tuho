@@ -25,7 +25,7 @@ const Footer = () => {
             <div className="footer__col">
               <Link href="/" className="footer__logo">
                 <span className="brand-name">VTNN TƯ HỒ</span>
-                <span className="slogan">ĐỒNG HÀNH CÙNG NÔNG GIA</span>
+                <span className="slogan">ĐỒNG HÀNH CÙNG NHÀ NÔNG</span>
               </Link>
 
               <div className="footer__contact">
