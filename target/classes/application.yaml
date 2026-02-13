@@ -1,0 +1,14 @@
+server:
+  servlet:
+    context-path: /api/v1
+
+spring:
+  application:
+    name: vtnn-tuho-apis
+  docker:
+    compose:
+      enabled: false
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+      - org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
